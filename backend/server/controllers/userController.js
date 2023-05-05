@@ -1,6 +1,5 @@
-import fs from 'fs';
 import passport from 'passport';
-import path from 'path';
+import bucket from '../config/gcBucket';
 import Product from '../models/productModel';
 import User from '../models/userModel';
 
@@ -28,14 +27,30 @@ export const logout = (req, res) => {
 
 // -------------------------------- Manage and View Users --------------------------------
 
+const uploadImage = (image) => {
+    return new Promise((resolve, reject) => {
+        const blob = bucket.file(image.originalname);
+        const blobStream = blob.createWriteStream({ resumable: false });
+        blobStream
+            .on('error', err => { reject(err) })
+            .on('finish', async () => {
+                try {
+                    await blob.makePublic();
+                    resolve(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
+                } catch (err) {
+                    reject(err);
+                }
+            })
+            .end(image.buffer);
+    });
+};
+
 export const createUser = async (req, res) => {
-    let newUser = new User(req.body)
-    if (req.file) {
-        let file = req.file;
-        let image = fs.readFileSync(path.join(__dirname + '/uploads/' + file.filename));
-        newUser.avatar = `data:image/image/png;base64,${image.toString('base64')}`;
-    }
     try {
+        if (req.file) {
+            req.body.avatar = await uploadImage(req.file);
+        }
+        let newUser = new User(req.body)
         const user = await newUser.save();
         res.json(user);
     } catch (err) {
@@ -44,12 +59,10 @@ export const createUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-    if (req.file) {
-        let file = req.file;
-        let image = fs.readFileSync(path.join(__dirname + '/uploads/' + file.filename));
-        req.body.avatar = `data:image/image/png;base64,${image.toString('base64')}`;
-    }
     try {
+        if (req.file) {
+            req.body.avatar = await uploadImage(req.file);
+        }
         const user = await User.findByIdAndUpdate(
             req.params.userId,
             req.body,
@@ -59,7 +72,7 @@ export const updateUser = async (req, res) => {
     } catch (err) {
         res.send(err);
     }
-}
+};
 
 export const deleteUser = async (req, res) => {
     try {

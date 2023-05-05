@@ -8,12 +8,18 @@ import {
     updateReview,
     deleteReview,
     productSearch,
-    getAllProducts
+    getAllProducts,
+    getTopProducts
 } from '../controllers/productController';
 import multer from 'multer';
 
 const productRoutes = (app) => {
-    const upload = multer({ dest: './controllers/uploads/' });
+    var upload = multer({ 
+        storage: multer.memoryStorage(), 
+        limits: {
+            fileSize: 1024 * 1024 * 5
+        }
+    });
 
     app.route('/product')
         .post(upload.array("images"), addProduct);
@@ -23,6 +29,8 @@ const productRoutes = (app) => {
         .get(productList);
     app.route('/products/search/:term/:sort')
         .get(productSearch)
+    app.route('/products/top')
+        .get(getTopProducts)
     app.route('/product/:productId')
         .get(displayProduct)
         .put(upload.array("images"), updateProduct)

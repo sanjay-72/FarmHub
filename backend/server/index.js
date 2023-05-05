@@ -9,7 +9,7 @@ import cors from 'cors';
 import userRoutes from './routes/userRoutes';
 import productRoutes from './routes/productRoutes';
 import orderRoutes from './routes/orderRoutes';
-require('dotenv').config({ path: './config/config.env' });
+require('dotenv').config();
 const app = express();
 
 // mongo connection

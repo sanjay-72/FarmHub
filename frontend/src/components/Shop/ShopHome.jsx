@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react';
 import Carousel from 'react-material-ui-carousel'
 import Box from '@mui/material/Box';
-import TopProducts from './TopProducts.json';
 import Rating from '@mui/material/Rating';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -10,6 +10,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { Container } from '@mui/material';
+import axios from 'axios';
 
 const banner = [
     'Images/ad1.jpg',
@@ -17,6 +18,19 @@ const banner = [
 ]
 
 export default function ShopHome() {
+
+    const [topProducts, setTopProducts] = useState(null);
+
+    useEffect(() => {
+        axios.get(`http://localhost:4000/products/top`)
+            .then((response) => {
+                setTopProducts(response.data);
+            })
+            .catch((err) => console.log(err))
+    }, [])
+
+    if (!topProducts) return null; 
+
     return (
         <Box sx={{ mt: { xs: 6, sm: 8 } }}>
             <Carousel
@@ -52,9 +66,9 @@ export default function ShopHome() {
                     Top Products
                 </Typography>
                 <Grid container rowSpacing={3} columnSpacing={3}>
-                    {TopProducts.map((product) => (
+                    {topProducts.map((product) => (
                         <Grid item xs={3} key={product._id}>
-                            <Link component={RouterLink} to={`/shop/product/${product._id.$oid}`} underline='none'>
+                            <Link component={RouterLink} to={`/shop/product/${product._id}`} underline='none'>
                                 <Card elevation={2} sx={{ height: "100%" }}>
                                     <CardMedia
                                         sx={{ p: 2, boxSizing: 'border-box', objectFit: 'contain' }}

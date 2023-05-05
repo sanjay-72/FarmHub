@@ -15,9 +15,13 @@ import {
     updateUser,
     userList
 } from '../controllers/userController';
-
 const userRoutes = (app) => {
-    const upload = multer({ dest: './controllers/uploads/' });
+    var upload = multer({ 
+        storage: multer.memoryStorage(), 
+        limits: {
+            fileSize: 1024 * 1024 * 5
+        }
+    });
 
     //-------------------------------- User Authentication --------------------------------
 
@@ -36,7 +40,7 @@ const userRoutes = (app) => {
         .get(displayUser)
         .delete(deleteUser);
     app.route('/user/:userId')
-        .put(upload.single('avatar'), updateUser)
+        .put(upload.single('avatar'), updateUser);
     app.route('/users')
         .get(userList);
 
