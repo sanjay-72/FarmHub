@@ -1,4 +1,4 @@
-import bucket from '../config/gcBucket';
+// import bucket from '../config/gcBucket';
 import Product from '../models/productModel';
 
 // -------------------------------- Manage and view products --------------------------------
