@@ -110,6 +110,7 @@ export default function BasicGrid() {
                             <Typography variant='h6' gutterBottom>SOCIAL LINKS</Typography>
                             <Link component={RouterLink} to='https://www.linkedin.com/in/farm-hub-6843a1272/'><LinkedInIcon fontSize="large" color="primary" /></Link>
                             <Link component={RouterLink} to='https://www.instagram.com/farm.hub4/'><InstagramIcon sx={{ ml: 1 }} fontSize="large" color="primary" /></Link>
+                            <Box id ="google_translate_element"></Box>
                             {/* <Box mt={5}>
                                 <FormControl sx={{ minWidth: '8em' }}>
                                     <InputLabel id="demo-simple-select-label" sx={{ color: 'primary.main' }}>
