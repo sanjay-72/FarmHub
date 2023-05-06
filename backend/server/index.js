@@ -38,7 +38,7 @@ app.use(session({
 }))
 
 app.get('/', function(req, res) {
-    res.send('Welcome to FarmHub API')
+    res.send('Welcome to our API')
 })
 
 app.use(auth.initialize);
