@@ -77,7 +77,7 @@ export default function Product({
     const [rating, setRating] = useState(0);
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/product/${id}`, { withCredentials: true })
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/product/${id}`, { withCredentials: true })
             .then((response) => {
                 if(!response.data.errors) {
                     setProduct(response.data)
@@ -97,7 +97,7 @@ export default function Product({
             quantity: 1
         };
 
-        axios.put(`http://localhost:4000/user/${user._id}/cart`, itemDetails, { withCredentials: true })
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/user/${user._id}/cart`, itemDetails, { withCredentials: true })
             .then((response) => {
                 if (response) setTrigger(prevValue => !prevValue)
             })
@@ -116,7 +116,7 @@ export default function Product({
             description: reviewDescription.current.value,
         };
 
-        axios.put(`http://localhost:4000/product/${id}/review`, reviewDetails, { withCredentials: true })
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/product/${id}/review`, reviewDetails, { withCredentials: true })
             .then(() => { setTrigger(prevValue => !prevValue); setReviewForm(false); })
             .catch((error) => console.log(error));
     }
@@ -129,7 +129,7 @@ export default function Product({
             description: reviewDescription.current.value,
         };
 
-        axios.put(`http://localhost:4000/product/${id}/review/${user._id}`, reviewDetails, { withCredentials: true })
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/product/${id}/review/${user._id}`, reviewDetails, { withCredentials: true })
             .then(() => { setTrigger(prevValue => !prevValue); setReviewForm(false); })
             .catch((error) => console.log(error));
     }
@@ -145,7 +145,7 @@ export default function Product({
     };
 
     async function deleteReview() {
-        axios.delete(`http://localhost:4000/product/${id}/review/${user._id}`, { withCredentials: true })
+        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/product/${id}/review/${user._id}`, { withCredentials: true })
             .then(() => setTrigger(prevValue => !prevValue))
             .catch((error) => console.log(error));
     }

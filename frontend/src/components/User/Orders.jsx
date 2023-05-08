@@ -17,7 +17,7 @@ export default function Orders({ user }) {
 
     useEffect(() => {
         if (!user) return;
-        axios.get(`http://localhost:4000/orders/${user._id}`, { withCredentials: true })
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/orders/${user._id}`, { withCredentials: true })
             .then(response => setOrders(response.data))
             .catch(error => console.log(error));
     }, [user])

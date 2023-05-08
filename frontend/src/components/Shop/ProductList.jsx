@@ -28,14 +28,14 @@ export default function ProductList({ updateTrigger }) {
 
     useEffect(() => {
         category ?
-            axios.get(`http://localhost:4000/products/category/${category}/${sort}`)
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/category/${category}/${sort}`)
                 .then((response) => {
                     setProducts(response.data.products);
                     setBrands(response.data.brands);
                 })
                 .catch((err) => console.log(err))
             :
-            axios.get(`http://localhost:4000/products/search/${search}/${sort}`)
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/search/${search}/${sort}`)
                 .then((response) => {
                     console.log(response.data);
                     setProducts(response.data);

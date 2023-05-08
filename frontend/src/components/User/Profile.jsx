@@ -74,7 +74,7 @@ export default function Profile({
         if (hasEmptyRequiredField) return;
         setStatus('submitting');
         
-        axios.put(`http://localhost:4000/user/${user._id}`, userValues, { withCredentials: true })
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/user/${user._id}`, userValues, { withCredentials: true })
             .then((response) => {
                 if (response.data.errors) {
                     openSnackbar('Changes could not be saved', 'error');
