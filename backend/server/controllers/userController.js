@@ -1,5 +1,5 @@
 import passport from 'passport';
-import bucket from '../config/gcBucket';
+// import bucket from '../config/gcBucket';
 import Product from '../models/productModel';
 import User from '../models/userModel';
 

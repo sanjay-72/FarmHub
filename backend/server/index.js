@@ -37,6 +37,10 @@ app.use(session({
     })
 }))
 
+app.get('/', function(req, res) {
+    res.send('Welcome to our API')
+})
+
 app.use(auth.initialize);
 app.use(auth.session);
 app.use(auth.setUser);
