@@ -4,7 +4,7 @@
   "category": [
     {
       "name": "Cereals",
-      "image": "/Images/Rice.jpg",
+      "image": "/Images/rice.jpg",
       "crops": [
         {
           "name": "Rice",
@@ -26,7 +26,7 @@
     },
     {
       "name": "Fruits",
-      "image": "/Images/Guava.jpg",
+      "image": "/Images/guava.jpg",
       "crops": [
         {
           "name": "Almonds",
@@ -132,7 +132,7 @@
     },
     {
       "name": "Seed plants",
-      "image": "/Images/Moong.jpg",
+      "image": "/Images/moong.jpg",
       "crops": [
         {
           "name": "Arhar (tur)",
@@ -194,7 +194,7 @@
     },
     {
       "name": "Vegetables",
-      "image": "/Images/Tomato.jpg",
+      "image": "/Images/tomato.jpg",
       "crops": [
         {
           "name": "Bitter gourd",

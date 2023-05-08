@@ -276,7 +276,7 @@
         },
         {
             "name": "Others",
-            "image": "/Images/tabacco-main.jpg",
+            "image": "/Images/tobacco.jpg",
             "crops": [
                 {
                     "name": "Tabacco",
