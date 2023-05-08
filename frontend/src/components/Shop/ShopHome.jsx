@@ -22,7 +22,6 @@ export default function ShopHome() {
     const [topProducts, setTopProducts] = useState(null);
 
     useEffect(() => {
-        console.log(process.env.REACT_APP_BACKEND_URL);
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/top`)
             .then((response) => {
                 setTopProducts(response.data);

@@ -80,7 +80,7 @@ export default function SignUp({ setTrigger, openSnackbar }) {
             phoneNumber: signUpInfo.phoneNumber
         };
 
-        axios.post('${process.env.REACT_APP_BACKEND_URL}/user/register', userDetails, { withCredentials: true })
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/register`, userDetails, { withCredentials: true })
             .then((response) => {
                 if (!response.data.errors) {
                     openSnackbar('Account created successfully', 'success');
@@ -101,7 +101,7 @@ export default function SignUp({ setTrigger, openSnackbar }) {
             password: signUpInfo.password,
         };
 
-        axios.post('${process.env.REACT_APP_BACKEND_URL}/user/login', loginDetails, { withCredentials: true })
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/login`, loginDetails, { withCredentials: true })
             .then((response) => {
                 if (response) {
                     setTrigger(prevValue => !prevValue)

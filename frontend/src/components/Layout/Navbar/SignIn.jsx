@@ -30,7 +30,7 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
            password: loginInfo.password,
         };
         
-        axios.post('${process.env.REACT_APP_BACKEND_URL}/user/login', loginDetails, { withCredentials: true })
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/login`, loginDetails, { withCredentials: true })
             .then(() => setTrigger(prevValue => !prevValue))
             .catch((error) => console.log(error));
     }

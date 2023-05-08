@@ -37,7 +37,7 @@ const Dashboard = () => {
     const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
-        axios.get('${process.env.REACT_APP_BACKEND_URL}/products')
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/products`)
             .then((response) => {
                 setProducts(response.data);
                 response.data.forEach((item) => {
@@ -48,7 +48,7 @@ const Dashboard = () => {
             })
             .catch((err) => console.log(err));
 
-        axios.get('${process.env.REACT_APP_BACKEND_URL}/orders')
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/orders`)
             .then((response) => {
                 setOrders(response.data);
                 setTotalPrice(0);
@@ -58,7 +58,7 @@ const Dashboard = () => {
             })
             .catch((err) => console.log(err));
 
-        axios.get('${process.env.REACT_APP_BACKEND_URL}/users')
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/users`)
             .then((response) => {
                 setUsers(response.data);
             })
