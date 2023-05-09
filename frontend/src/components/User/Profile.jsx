@@ -22,59 +22,66 @@ export default function Profile({
     profSec,
     setProfSec
 }) {
+    const [status, setStatus] = useState('success');
+    
     const userFields = ['name', 'email', 'phoneNumber'];
 
-    const [status, setStatus] = useState('success');
-
-    // const [avatar, setAvatar] = useState(user.avatar);
-
-    const registerDataChange = (e) => {
-        setStatus('typing');
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                setUserValues((prevValues) => ({
-                    ...prevValues,
-                    avatar: reader.result,
-                }));
-            }
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    }
-
-
-
     const [userValues, setUserValues] = useState({
-        avatar:user.avatar,
+        avatar: user.avatar,
+        avatarSrc: user.avatar,
         name: user.name,
         email: user.email,
         phoneNumber: user.phoneNumber,
     });
+    
     const [userErrors, setUserErrors] = useState({
         name: '',
         email: '',
         phoneNumber: ''
     });
 
-    const handleChange = (event) => {
+    const handleChange = (e) => {
         setStatus('typing');
         setUserValues((prevValues) => ({
             ...prevValues,
-            [event.target.name]: event.target.value,
+            [e.target.name]: e.target.value,
         }));
         setUserErrors((prevValues) => ({
             ...prevValues,
-            [event.target.name]: event.target.value === '' ? 'Required' : ''
+            [e.target.name]: e.target.value === '' ? 'Required' : ''
         }));
     };
+
+    const handleAvatarUpload = (e) => {
+        setStatus('typing');
+        const file = e.target.files[0];
+        const imageUrl = URL.createObjectURL(file);
+        setUserValues((prevValues) => ({
+            ...prevValues,
+            avatar: file,
+            avatarSrc: imageUrl,
+        }));
+    }
 
     function updateUser(e) {
         e.preventDefault();
         const hasEmptyRequiredField = userFields.some((field) => userValues[field] === '');
         if (hasEmptyRequiredField) return;
         setStatus('submitting');
-        
-        axios.put(`${process.env.REACT_APP_BACKEND_URL}/user/${user._id}`, userValues, { withCredentials: true })
+
+        const formData = new FormData();
+        formData.append('avatar', userValues.avatar);
+        formData.append('name', userValues.name);
+        formData.append('email', userValues.email);
+        formData.append('phoneNumber', userValues.phoneNumber);
+
+        axios.put(
+            `${process.env.REACT_APP_BACKEND_URL}/user/${user._id}`,
+            formData,
+            {
+                headers: { 'Content-Type': 'multipart/form-data' },
+                withCredentials: true
+            })
             .then((response) => {
                 if (response.data.errors) {
                     openSnackbar('Changes could not be saved', 'error');
@@ -91,12 +98,16 @@ export default function Profile({
                     setStatus('typing');
                     return;
                 }
+                setUserValues((prevValues) => ({
+                    ...prevValues,
+                    avatarSrc: response.data.avatar,
+                }));
                 setTrigger(prevValue => !prevValue);
                 openSnackbar('Changes saved successfully', 'success');
                 setStatus('success');
             })
             .catch((error) => {
-                console.log(error); 
+                console.log(error);
                 setStatus('typing')
                 openSnackbar('Changes could not be saved', 'error');
             })
@@ -143,21 +154,17 @@ export default function Profile({
                                 <Grid item xs={12}>
                                     <Badge
                                         badgeContent={
-                                            <IconButton  component="label" color="primary" sx={{ border: '0.1px solid lightgray' }} >
+                                            <IconButton component="label" color="primary" sx={{ border: '0.1px solid lightgray' }} >
                                                 <EditIcon color="tertiary" />
-                                                
-                                                    <input
-                                                        hidden
-                                                        onChange={registerDataChange}
-                                                        name='avatar'
-                                                        accept="image/*"
-                                                        type="file"
-                                                    />
+                                                <input
+                                                    hidden
+                                                    onChange={handleAvatarUpload}
+                                                    name='avatar'
+                                                    accept="image/*"
+                                                    type="file"
+                                                />
                                             </IconButton>
                                         }
-
-
-
                                         anchorOrigin={{
                                             vertical: 'bottom',
                                             horizontal: 'right',
@@ -165,7 +172,7 @@ export default function Profile({
                                         overlap="circular">
                                         <Avatar
                                             alt={user.name}
-                                            src={userValues.avatar}
+                                            src={userValues.avatarSrc}
                                             sx={{ width: '5em', height: '5em' }}
                                         />
                                     </Badge>
