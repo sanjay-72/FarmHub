@@ -10,7 +10,7 @@ import Navbar from './components/Layout/Navbar/Navbar'
 import Home from './components/Layout/Home/Home';
 import Footer from "./components/Layout/Footer/Footer"
 import Crops from './components/Crops/Crops'
-import Services from './components/Layout/Services'
+import DoseCalculator from './components/Layout/DoseCalculater'
 import ProductList from './components/Shop/ProductList';
 import ProductDetail from './components/Shop/ProductDetail';
 import SignUp from './components/Layout/Navbar/SignUp';
@@ -141,7 +141,7 @@ export default function App() {
                     <Route index element={<Home />} />
                     <Route path='crops' element={<Crops />} />
                     <Route path='crops/:season' element={<CropDetails />} />
-                    <Route path='services' element={<Services/>} />
+                    <Route path='services' element={<DoseCalculator/>} />
                     <Route path='about-us' element={<AboutUs />} />
                     <Route path='termsAndConditions' element={<TermsAndConditions />} />
                     <Route path='privacyPolicy' element={<PrivacyPolicy />} />
