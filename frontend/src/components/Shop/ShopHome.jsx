@@ -22,7 +22,7 @@ export default function ShopHome() {
     const [topProducts, setTopProducts] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/products/top`)
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/top`)
             .then((response) => {
                 setTopProducts(response.data);
             })

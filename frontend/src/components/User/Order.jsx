@@ -19,7 +19,7 @@ export default function Order() {
     const [order, setOrder] = useState();
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/order/${orderId}`, { withCredentials: true })
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/order/${orderId}`, { withCredentials: true })
             .then((response) => { setOrder(response.data) })
             .catch((err) => console.log(err));
     }, [orderId]);

@@ -1,4 +1,4 @@
-// import bucket from '../config/gcBucket';
+import bucket from '../config/gcBucket';
 import Product from '../models/productModel';
 
 // -------------------------------- Manage and view products --------------------------------
@@ -11,12 +11,7 @@ const uploadImages = async (images) => {
             blobStream
                 .on('error', err => reject(err))
                 .on('finish', async () => {
-                    try {
-                        await blob.makePublic();
-                        resolve({ data: `https://storage.googleapis.com/${bucket.name}/${blob.name}` });
-                    } catch (err) {
-                        reject(err);
-                    }
+                    resolve({ data: `https://storage.googleapis.com/${bucket.name}/${blob.name}` });
                 })
                 .end(image.buffer);
         });

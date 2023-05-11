@@ -70,7 +70,7 @@ function Crops() {
                             <CardMedia
                                 component="img"
                                 image={crop.image}
-                                alt="Wheat"
+                                alt={crop.name}
                                 width={250}
                                 height={380}
                                 sx={{ objectFit: "cover" }}
