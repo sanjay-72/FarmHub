@@ -8,8 +8,10 @@ import {
     deletefromCart,
     deleteUser,
     displayUser,
+    forgotPassword,
     login,
     logout,
+    resetPassword,
     updateAddress,
     updateInCart,
     updateUser,
@@ -62,6 +64,14 @@ const userRoutes = (app) => {
     app.route('/user/:userId/cart/:productId')
         .put(updateInCart)
         .delete(deletefromCart);
+
+    //-------------------------------- Password --------------------------------
+    app.route("/password/forgot")
+        .post(forgotPassword);
+    // app.route("/password/reset/:token")
+    //     .put(resetPassword);    
 }
+
+
 
 export default userRoutes;
