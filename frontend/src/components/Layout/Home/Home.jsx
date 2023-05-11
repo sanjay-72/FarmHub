@@ -53,7 +53,7 @@ const featuredCrops = [
     },
     {
         name: 'Rice',
-        image: '/Images/Rice.jpg',
+        image: '/Images/rice.jpg',
         link: '/crops/kharif'
     },
     {

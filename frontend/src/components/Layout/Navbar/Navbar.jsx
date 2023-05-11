@@ -96,7 +96,7 @@ function NavBar({
     }, [shopNav])
 
     function signOut() {
-        axios.get(`http://localhost:4000/user/logout`, { withCredentials: true })
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/logout`, { withCredentials: true })
             .then(() => setTrigger(prevValue => !prevValue))
             .catch((err) => console.log(err));
     }

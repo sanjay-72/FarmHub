@@ -1,8 +1,8 @@
 import { Storage } from '@google-cloud/storage';
 
 const gc = new Storage({
-    projectId: 'farmhub-gcp',
-    keyFilename: './farmhub-gcp-7cd596f759ce.json'
+    projectId: 'farmhub-agro',
+    keyFilename: './farmhub-agro-fbab49277097.json'
 });
 
-export default gc.bucket('farmhub-gcp.appspot.com');
+export default gc.bucket('farmhub-bucket');

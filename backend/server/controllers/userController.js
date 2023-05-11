@@ -1,5 +1,5 @@
 import passport from 'passport';
-// import bucket from '../config/gcBucket';
+import bucket from '../config/gcBucket';
 import Product from '../models/productModel';
 import User from '../models/userModel';
 
@@ -42,12 +42,7 @@ const uploadImage = (image) => {
         blobStream
             .on('error', err => { reject(err) })
             .on('finish', async () => {
-                try {
-                    await blob.makePublic();
-                    resolve(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
-                } catch (err) {
-                    reject(err);
-                }
+                resolve(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
             })
             .end(image.buffer);
     });

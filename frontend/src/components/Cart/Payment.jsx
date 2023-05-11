@@ -17,7 +17,7 @@ const Payment = ({ user, setTrigger, setActiveStep, shippingAddress }) => {
 
     function placeOrder (e) {
         e.preventDefault();
-        axios.post(`http://localhost:4000/order/${user._id}`, shippingAddress, { withCredentials: true })
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/order/${user._id}`, shippingAddress, { withCredentials: true })
             .then(response => {
                 if(!response.data.errors) {
                     setTrigger(prevValue => !prevValue);

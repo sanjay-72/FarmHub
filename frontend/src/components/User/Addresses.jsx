@@ -68,7 +68,7 @@ export default function Addresses({
             if(error) return;
         }
         setStatus('submitting');
-        const url = `http://localhost:4000/user/${user._id}/address${addressId ? `/${addressId}` : ''}`;
+        const url = `${process.env.REACT_APP_BACKEND_URL}/user/${user._id}/address${addressId ? `/${addressId}` : ''}`;
         const data = method === 'delete' ? {} : addressValues;
 
         axios({
