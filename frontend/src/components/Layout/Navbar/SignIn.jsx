@@ -64,7 +64,9 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
                 />
                 <Typography mt={3} variant="subtitle2">
                     {'New User? '} 
-                    <Link component={RouterLink} to='/signup' color='tertiary.main'>Create an Account</Link>
+                    <Link component={RouterLink} to='/signup' onClick={() => setOpen(false)} color='tertiary.main'>
+                        Create an Account
+                    </Link>
                 </Typography>
             </DialogContent>
             <DialogActions>

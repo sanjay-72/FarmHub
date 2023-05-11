@@ -10,7 +10,16 @@ const userSchema = new Schema({
     password: { type: String, required: true, minLength: 6 },
     avatar: { type: String },
     role: { type: String, enum: ['admin', 'customer'], default: "customer" },
-    phoneNumber: { type: Number, required: true, unique: true },
+    phoneNumber: { 
+        type: String, 
+        required: true, 
+        unique: true,
+        validate: {
+            validator: function(v) {
+                return validator.isMobilePhone(v, 'en-IN');
+            }
+        }
+    },
     addresses: {
         type: [{
             area: { type: String, required: true },
@@ -63,7 +72,18 @@ userSchema.pre('save', async function (next) {
     }
 });
 
-// Compare Password
+userSchema.pre('findOneAndUpdate', async function (next) {
+    const update = this.getUpdate();
+    if (!update.password) return next();
+    try {
+        const hash = await bcrypt.hash(update.password, 12);
+        update.password = hash;
+        return next();
+    } catch (err) {
+        return next(err);
+    }
+});
+
 userSchema.methods.comparePassword = async function comparePassword(candidate) {
     return bcrypt.compare(candidate, this.password);
 };
