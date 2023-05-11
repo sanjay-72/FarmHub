@@ -13,7 +13,7 @@ const Services = () => {
         UNDER DEVLOPMENT
       </Typography>
       <Typography variant="h5"color="primary">
-        This page is currently under development. Please check back later for updates
+        This page is currently under development. Please check back later for updates. dose
       </Typography>
     </Container>
   );  
