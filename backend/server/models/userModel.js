@@ -30,7 +30,7 @@ const userSchema = new Schema({
     virtuals: {
         cartTotal: {
             get() {
-                if(!this.populated('cart.product'))
+                if (!this.populated('cart.product'))
                     return null;
                 let cartSubtotal = 0;
                 for (const item of this.cart)
@@ -46,7 +46,8 @@ const userSchema = new Schema({
                 return cartItems;
             }
         }
-    }
+    },
+    resetPasswordOtp: Number,
 });
 
 userSchema.set('toJSON', { getters: true });
@@ -66,6 +67,15 @@ userSchema.pre('save', async function (next) {
 // Compare Password
 userSchema.methods.comparePassword = async function comparePassword(candidate) {
     return bcrypt.compare(candidate, this.password);
+};
+
+
+// Generating Password Reset Token
+userSchema.methods.getResetPasswordOtp = function () {
+    const otp = Math.floor(100000 + Math.random() * 900000)
+
+
+    return otp;
 };
 
 module.exports = mongoose.model("User", userSchema);

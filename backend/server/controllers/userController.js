@@ -3,6 +3,14 @@ import bucket from '../config/gcBucket';
 import Product from '../models/productModel';
 import User from '../models/userModel';
 
+require('dotenv').config();
+const accountSid = process.env.ACCOUNT_SID;
+const authToken = process.env.AUTH_TOKEN;
+import twilio from "twilio";
+// import fast2sms from "fast-two-sms";
+
+
+
 // -------------------------------- User Authentication --------------------------------
 
 export const currentUserDetails = (req, res) => {
@@ -208,3 +216,69 @@ export const deletefromCart = async (req, res) => {
         res.send(err);
     }
 }
+
+
+
+const otpCheck = async (req, res, user) => {
+    if(req.body.OTP !== user.resetPasswordOtp){
+        return res.json({message: 'Invalid OTP'})
+    }
+    
+}
+
+
+// Forget password
+
+export const forgotPassword = async (req, res) => {
+
+    const user = await User.findOne({ phoneNumber: req.body.phoneNumber });
+    const phoneNumber = req.body.phoneNumber;
+    const client = twilio(accountSid, authToken);
+    const OTP = user.getResetPasswordOtp() 
+
+    // var options = {
+    //     authorization: process.env.API_KEY,
+    //     message: ` ${otp} This is your OTP for Farmhub password reset`,
+    //     numbers: ['8303045383']
+    // }
+
+
+    if (!user) {
+        res.json({ message: 'user not found' });
+        return;
+    }
+
+    // fast2sms.sendMessage(options)
+    //     .then((response) => {
+    //         console.log(response)
+    //         res.json({ message: 'message sent successfully', response: response });
+    //     })
+    //     .catch((error) => {
+    //         res.send(error)
+    //     })
+    
+    try {
+        
+        console.log(OTP);
+        client.messages
+            .create({
+                body: ` ${OTP} This is your OTP for Farmhub password reset`,
+                from: '+12708136198',
+                to: '+91 83030 45383',
+            })
+            .then((message) => {
+                console.log(message)
+                otpCheck(req,res, user)
+            })
+    } catch (error) {
+        res.send(error)
+    }
+};
+
+
+
+
+
+
+
+
