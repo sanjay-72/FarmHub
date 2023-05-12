@@ -19,7 +19,7 @@ const ConfirmOrder = ({ user, orderCharges, setActiveStep, shippingAddress }) =>
             <Typography variant="h4" mt={4} color="primary">Confirm Order</Typography>
 
             <Grid container spacing={5}>
-                <Grid item xs={6} mr='auto'>
+                <Grid item xs={12} md={6} mr='auto'>
                     <Typography variant="h5" mt={4} mb={2} color="cropHeading.main">Shipping Info</Typography>
                     <Card
                         sx={{
@@ -91,7 +91,7 @@ const ConfirmOrder = ({ user, orderCharges, setActiveStep, shippingAddress }) =>
                         )}
                 </Grid>
 
-                <Grid item xs={5} className="orderSummary">
+                <Grid item xs={12} md={6} className="orderSummary">
                     <Typography variant="h5" mt={4} mb={2} color="cropHeading.main">Order Summery</Typography>
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent sx={{
@@ -132,10 +132,10 @@ const ConfirmOrder = ({ user, orderCharges, setActiveStep, shippingAddress }) =>
             </Grid>
 
 
-            <Button onClick={() => setActiveStep(0)} size='large' sx={{ textTransform: 'none', marginRight: "2rem", }} color='primary' variant='contained'>
+            <Button onClick={() => setActiveStep(0)} size='large' sx={{ textTransform: 'none', marginRight: "2rem", mt: 2}} color='primary' variant='contained'>
                 Back to Shipping Details
             </Button>
-            <Button onClick={() => setActiveStep(2)} size='large' sx={{ textTransform: 'none' }} color='tertiary' variant='contained'>
+            <Button onClick={() => setActiveStep(2)} size='large' sx={{ textTransform: 'none', mt: 2}} color='tertiary' variant='contained'>
                 Proceed for Payment
             </Button>
         </Container>
