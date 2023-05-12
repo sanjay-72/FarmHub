@@ -61,7 +61,9 @@ function NavBar({
     setLoginDialog,
     updateInCart,
     removeFromCart,
-    setUserTab
+    setUserTab,
+    weatherDetails,
+    setWeatherDetails,
 }) {
 
     const [serviceCollapse, setServiceCollapse] = useState(false);
@@ -76,7 +78,7 @@ function NavBar({
         setServiceCollapse(false);
         setCategoriesCollapse(false);
     };
-    
+
     const [anchorElUser, setAnchorElUser] = useState(null);
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -304,8 +306,25 @@ function NavBar({
                         {/* <IconButton size='large'>
                             <SearchIcon color="tertiary" fontSize='inherit' />
                         </IconButton> */}
+                        {weatherDetails && 
+                            <Box display='flex' alignItems='center' justifyContent='center' pr='1.8rem'>
+
+                                <img src={weatherDetails.icon} alt="" style={{
+                                    width: '30%'
+                                }} />
+                                <Box display='flex' flexDirection='column ' >
+                                    <Typography variant="body2" color="tertiary" fontFamily="Roboto" fontWeight='bold'>
+                                        {weatherDetails.temp}
+                                    </Typography>
+                                    <Typography variant="body2" color="tertiary" fontFamily="Roboto" fontWeight='bold' >
+                                        {weatherDetails.description}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        }
                         {user ?
                             <>
+
                                 <IconButton onClick={() => setCartDrawer(true)} size='large'>
                                     <Badge badgeContent={user.cartItems} color="secondary">
                                         <ShoppingCartIcon color="tertiary" fontSize='inherit' />
