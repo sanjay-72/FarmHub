@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Filters from './Filters'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -10,13 +11,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Link from '@mui/material/Link';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
+import Drawer from '@mui/material/Drawer';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import IconButton from '@mui/material/IconButton';
 
 export default function ProductList({ updateTrigger }) {
 
@@ -79,6 +79,20 @@ export default function ProductList({ updateTrigger }) {
             setCheckedBrands(newCheckedBrands => newCheckedBrands.filter(selected => selected !== rating))
     };
 
+    const filterProps = {
+        priceRange: priceRange,
+        changePriceRange: changePriceRange,
+        checkPriceRange: checkPriceRange,
+        ratings: ratings,
+        checkedRating: checkedRating,
+        changeCheckedRating: changeCheckedRating,
+        brands: brands,
+        checkedBrands: checkedBrands,
+        changeCheckedBrands: changeCheckedBrands
+    }
+
+    const [cartDrawer, setCartDrawer] = useState(false);
+
     if (products) {
         return (
             <Container sx={{ mt: { xs: 6, sm: 8 } }}>
@@ -86,103 +100,63 @@ export default function ProductList({ updateTrigger }) {
                     <Grid item xs={12}>
                         <Card>
                             <CardContent sx={{ p: '0.8em !important' }}>
-                                <Stack direction='row' alignItems='center'>
+                                <Stack direction='row' alignItems='center' flexWrap='wrap'>
                                     <Typography mr='auto' variant='subtitle1' fontWeight='500'>
                                         {category ? category : `Results for "${search}"`}
                                     </Typography>
-                                    <Typography variant='subtitle1' fontWeight='500'>Sort by</Typography>
-                                    <Select
-                                        sx={{ ml: 1, minWidth: '12em' }}
-                                        size='small'
-                                        color='primary'
-                                        value={sort}
-                                        onChange={(event) => setSort(event.target.value)}
-                                        displayEmpty
-                                        inputProps={{ 'aria-label': 'Without label' }}
+                                    <IconButton 
+                                        onClick={() => setCartDrawer(true)} 
+                                        size='large'
+                                        sx={{
+                                            display: { xs: 'block', md: 'none' }
+                                        }}
                                     >
-                                        <MenuItem value='none'>Relavance</MenuItem>
-                                        <MenuItem value='price'>Price Low to High</MenuItem>
-                                        <MenuItem value='-price'>Price High to Low</MenuItem>
-                                    </Select>
+                                            <FilterListIcon color="tertiary" fontSize='inherit' />
+                                    </IconButton>
+                                    <Stack direction='row' alignItems='center'>
+                                        <Typography variant='subtitle1' fontWeight='500'>Sort by</Typography>
+                                        <Select
+                                            sx={{ ml: 1, minWidth: '12em' }}
+                                            size='small'
+                                            color='primary'
+                                            value={sort}
+                                            onChange={(event) => setSort(event.target.value)}
+                                            displayEmpty
+                                            inputProps={{ 'aria-label': 'Without label' }}
+                                        >
+                                            <MenuItem value='none'>Relavance</MenuItem>
+                                            <MenuItem value='price'>Price Low to High</MenuItem>
+                                            <MenuItem value='-price'>Price High to Low</MenuItem>
+                                        </Select>
+                                    </Stack>
                                 </Stack>
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item display={{ xs: 'none', md: 'block' }} md={3}>
                         <Card elevation={2}>
                             <CardContent>
-                                <Typography variant='subtitle1' fontWeight='500'>Price Range</Typography>
-                                <Box display='flex' alignItems='center' mt={2}>
-                                    <TextField
-                                        type='number'
-                                        size="small"
-                                        variant="outlined"
-                                        name='min'
-                                        label='Min'
-                                        value={priceRange.min}
-                                        onChange={(event) => changePriceRange(event)}
-                                        onBlur={(event) => checkPriceRange(event)}
-                                    />
-                                    <Typography px={1} fontWeight='500'>-</Typography>
-                                    <TextField
-                                        type='number'
-                                        size="small"
-                                        variant="outlined"
-                                        name='max'
-                                        label='Max'
-                                        value={priceRange.max}
-                                        onChange={(event) => changePriceRange(event)}
-                                        onBlur={(event) => checkPriceRange(event)}
-                                    />
-                                </Box>
-                                <Typography variant='subtitle1' fontWeight='500' mt={5}>Ratings</Typography>
-                                <FormGroup sx={{ mt: 1 }}>
-                                    {ratings.map(rating => (
-                                        <FormControlLabel
-                                            key={rating}
-                                            sx={{ ml: 0 }}
-                                            control={
-                                                <Checkbox
-                                                    checked={checkedRating.some(selected => selected === rating)}
-                                                    onChange={(event) => changeCheckedRating(event, rating)}
-                                                    color='tertiary'
-                                                />
-                                            }
-                                            label={<Rating name="read-only" value={rating} readOnly />} />
-                                    ))}
-                                </FormGroup>
-                                {brands ?
-                                    <>
-                                        <Typography variant='subtitle1' fontWeight='500' mt={5}>Brands</Typography>
-                                        <FormGroup sx={{ mt: 1 }}>
-                                            {brands.map(brand => (
-                                                <FormControlLabel
-                                                    key={brand}
-                                                    sx={{ ml: 0 }}
-                                                    control={
-                                                        <Checkbox
-                                                            checked={checkedBrands.some(selected => selected === brand)}
-                                                            onChange={(event) => changeCheckedBrands(event, brand)}
-                                                            color='tertiary'
-                                                        />
-                                                    }
-                                                    label={brand}
-                                                />
-                                            ))}
-                                        </FormGroup>
-                                    </>
-                                    : null}
+                                <Filters {...filterProps} />
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid item xs={9} container rowSpacing={3} columnSpacing={3}>
+                    <Drawer
+                        anchor='left'
+                        open={cartDrawer}
+                        onClose={() => setCartDrawer(false)}
+                    >
+                        <Box p={2} width='15rem'>
+                            <Filters {...filterProps} />
+                        </Box>
+                    </Drawer>
+                    <Grid item xs={12} md={9} container rowSpacing={3} columnSpacing={3}>
                         {products.filter(product =>
                             (checkedRating.length === 0 || checkedRating.includes(Math.round(product.avgRating)))
                             && (checkedBrands.length === 0 || checkedBrands.includes(product.brand))
                             && (priceRange.min ? product.price > priceRange.min : true)
                             && (priceRange.max ? product.price < priceRange.max : true))
                             .map(product => (
-                                <Grid item xs={4} key={product._id}>
+                                <Grid item xs={12} sm={6} md={4} key={product._id}>
                                     <Link component={RouterLink} to={`/shop/product/${product._id}`} underline='none'>
                                         <Card elevation={2}>
                                             <CardMedia
@@ -193,7 +167,15 @@ export default function ProductList({ updateTrigger }) {
                                                 alt={product.name}
                                             />
                                             <CardContent>
-                                                <Typography gutterBottom variant="h6" component="div">
+                                                <Typography 
+                                                    gutterBottom 
+                                                    height='4rem' 
+                                                    variant="h6" 
+                                                    component="div"
+                                                    sx={{
+                                                        overflow: 'hidden',
+                                                    }}
+                                                >
                                                     {product.name}
                                                 </Typography>
                                                 <Box height='1.4em'>

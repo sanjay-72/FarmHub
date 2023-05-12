@@ -154,7 +154,7 @@ export default function Product({
         return (
             <Container sx={{ mt: { xs: 6, sm: 8 } }}>
                 <Grid container pt={5} spacing={5} columns={18}>
-                    <Grid item xs={2}>
+                    <Grid item display={{xs: 'none', md: 'block'}} md={2}>
                         <ImageList cols={1} sx={{ mt: 0 }} >
                             {product.images.map(image => (
                                 <ImageListItem 
@@ -178,7 +178,7 @@ export default function Product({
                             ))}
                         </ImageList>
                     </Grid>
-                    <Grid item xs={8} display='flex' justifyContent='center'>
+                    <Grid item xs={18} md={8} display='flex' justifyContent='center'>
                         <Box 
                             component='img' 
                             src={productImage.data} 
@@ -186,7 +186,34 @@ export default function Product({
                             sx={{ height: '30rem', width: '100%', objectFit: 'contain' }}
                         />
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item display={{ xs: 'block', md: 'none' }} xs={18}>
+                        <Box style={{ width: '300px', overflowX: 'auto' }}>
+                            <ImageList sx={{ mt: 0, display: 'flex' }}>
+                                {product.images.map((image) => (
+                                    <ImageListItem
+                                        component="img"
+                                        key={image._id}
+                                        sx={{
+                                            width: '100%',
+                                            height: '6rem !important',
+                                            boxSizing: 'border-box',
+                                            objectFit: 'contain',
+                                            border: '0.1em solid',
+                                            borderColor:
+                                                image._id === productImage._id ? 'tertiary.main' : 'primary.main',
+                                            borderRadius: '20%',
+                                            mb: 1,
+                                            p: 1,
+                                        }}
+                                        src={image.data}
+                                        alt={product.name}
+                                        onClick={() => setImage(image)}
+                                    ></ImageListItem>
+                                ))}
+                            </ImageList>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={18} md={8}>
                         <Typography variant='h4' fontWeight='500' color='primary.main'>{product.name}</Typography>
                         {product.avgRating ?
                             <Box display='flex' alignItems='center' mt={2}>

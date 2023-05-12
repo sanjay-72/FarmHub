@@ -37,7 +37,7 @@ export default function ShopHome() {
                 interval={3000}
                 stopAutoPlayOnHover={false}
                 animation='slide'
-                height='35rem'
+                height='40vw'
                 indicatorContainerProps={{
                     style: {
                         display: 'none'
@@ -46,7 +46,7 @@ export default function ShopHome() {
                 }}
             >
                 {banner.map(item => (
-                    <Box component='img' sx={{ width: '100%', height: '100%' }} src={item} />
+                    <Box component='img' sx={{ width: '100%', height: '100%', objectFit: 'cover' }} src={item} />
                 ))}
             </Carousel>
 
@@ -67,7 +67,7 @@ export default function ShopHome() {
                 </Typography>
                 <Grid container rowSpacing={3} columnSpacing={3}>
                     {topProducts.map((product) => (
-                        <Grid item xs={3} key={product._id}>
+                        <Grid item xs={12} sm={6} md={3} key={product._id}>
                             <Link component={RouterLink} to={`/shop/product/${product._id}`} underline='none'>
                                 <Card elevation={2} sx={{ height: "100%" }}>
                                     <CardMedia

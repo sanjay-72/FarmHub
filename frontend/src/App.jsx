@@ -162,37 +162,21 @@ export default function App() {
                     <Route path='order/:orderId' element={<Order user={user} />} />
                     <Route path='checkOut' element={<CheckOutSteps user={user} setTrigger={setTrigger} />} />
                     <Route path='orderSuccess' element={<OrderSuccess setUserTab={setUserTab}/>}S/>
-                    
-
-                </Route>
-                <Route path='/shop' element={
-                    <>
-                        <Navbar
-                            setTrigger={setTrigger}
-                            user={user}
-                            loginDialog={loginDialog}
-                            setLoginDialog={setLoginDialog}
-                            updateInCart={updateInCart}
-                            removeFromCart={removeFromCart}
-                            setUserTab={setUserTab}
+                    <Route path='/shop'>
+                        <Route index element={<ShopHome />} />
+                        <Route path='products/category/:category' element={
+                            <ProductList updateTrigger={updateTrigger} />}
                         />
-                        <Outlet />
-                        <Footer />
-                    </>
-                }>
-                    <Route index element={<ShopHome />} />
-                    <Route path='products/category/:category' element={
-                        <ProductList updateTrigger={updateTrigger} />}
-                    />
-                    <Route path='product/:id' element={
-                        <ProductDetail
-                            user={user}
-                            updateTrigger={updateTrigger}
-                            setTrigger={setTrigger}
-                            setLoginDialog={setLoginDialog}
-                            updateInCart={updateInCart}
-                        />}
-                    />
+                        <Route path='product/:id' element={
+                            <ProductDetail
+                                user={user}
+                                updateTrigger={updateTrigger}
+                                setTrigger={setTrigger}
+                                setLoginDialog={setLoginDialog}
+                                updateInCart={updateInCart}
+                            />}
+                        />
+                    </Route>
                 </Route>
                 <Route path='/signup' element={
                     <SignUp setTrigger={setTrigger} openSnackbar={openSnackbar} />}

@@ -194,7 +194,7 @@ export default function Profile({
                                     </Badge>
                                 </Grid>
                                 {userFields.map((field) => (
-                                    <Grid item xs={6} key={field}>
+                                    <Grid item xs={12} sm={6} key={field}>
                                         <TextField
                                             color="tertiary"
                                             label={startCase(field)}

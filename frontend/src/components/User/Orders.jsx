@@ -33,10 +33,10 @@ export default function Orders({ user }) {
     if (orders) {
         return (
             <>
-                <Typography variant='h4' mr='auto' color='primary' fontWeight='bold'>
+                <Typography variant='h4' mr='auto' color='primary' fontWeight='bold' mb={{ xs: 2, md: 0 }}>
                     My Orders
                 </Typography>
-                <Grid container p={2} spacing={2} columns={20}>
+                <Grid container p={2} spacing={2} columns={20} display={{ xs: 'none', md: 'flex' }}>
                     <Grid item xs={6}>
                         <Typography color='tertiary' variant='h6'>Product Name</Typography>
                     </Grid>
@@ -70,8 +70,8 @@ export default function Orders({ user }) {
                                     pb: 2,
                                 },
                             }}>
-                                <Grid container alignItems='center' columnSpacing={2} columns={20}>
-                                    <Grid item xs={6}>
+                                <Grid container alignItems='center' rowSpacing={{ xs: 1, md: 'none' }} columnSpacing={2} columns={20}>
+                                    <Grid item xs={20} sm={10} md={6}>
                                         <Typography
                                             sx={{
                                                 whiteSpace: 'nowrap',
@@ -81,16 +81,16 @@ export default function Orders({ user }) {
                                             {order.product.name}
                                         </Typography>
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={20} sm={10} md={3}>
                                         <Chip
                                             label={order.status}
                                             color={statusColor(order.status)}
                                         />
                                     </Grid>
-                                    <Grid item xs={4}>
+                                    <Grid item xs={20} sm={10} md={4}>
                                         <Typography>{DateTime.fromISO(order.createdAt).toFormat('d LLLL yyyy')}</Typography>
                                     </Grid>
-                                    <Grid item xs={4}>
+                                    <Grid item xs={20} sm={10} md={4}>
                                         <Typography>
                                             {order.dateDelivered
                                                 ? DateTime.fromISO(order.dateDelivered).toFormat('d LLLL yyyy')
@@ -98,12 +98,12 @@ export default function Orders({ user }) {
                                             }
                                         </Typography>
                                     </Grid>
-                                    <Grid item xs={2}>
+                                    <Grid item xs={20} sm={10} md={2}>
                                         <Typography>
                                             ₹{(order.total).toLocaleString(undefined, { maximumFractionDigits: 2 })}
                                         </Typography>
                                     </Grid>
-                                    <Grid item xs={1} display='flex' justifyContent='flex-end'>
+                                    <Grid item xs={20} sm={10} md={1} display='flex' justifyContent='flex-end'>
                                         <IconButton size='small'>
                                             <ArrowForwardIcon />
                                         </IconButton>

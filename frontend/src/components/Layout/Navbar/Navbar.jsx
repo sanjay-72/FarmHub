@@ -63,12 +63,18 @@ function NavBar({
     removeFromCart,
     setUserTab
 }) {
+
+    const [serviceCollapse, setServiceCollapse] = useState(false);
+    const [categoriesCollapse, setCategoriesCollapse] = useState(false);
+
     const [anchorElNav, setAnchorElNav] = useState(null);
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
+        setServiceCollapse(false);
+        setCategoriesCollapse(false);
     };
     
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -96,9 +102,6 @@ function NavBar({
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const [serviceCollapse, setServiceCollapse] = useState(false);
-    const [categoriesCollapse, setCategoriesCollapse] = useState(false);
 
     function signOut() {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/logout`, { withCredentials: true })
@@ -157,8 +160,8 @@ function NavBar({
                                 {serviceCollapse ? <ExpandLess /> : <ExpandMore />}
                             </MenuItem>
                             <Collapse in={serviceCollapse} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
-                                <MenuItem onClick={handleCloseNavMenu}>Weather</MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>Dose Caluculator</MenuItem>
+                                <MenuItem component={Link} to='/weather' onClick={handleCloseNavMenu}>Weather</MenuItem>
+                                <MenuItem component={Link} to='/doseCalculator' onClick={handleCloseNavMenu}>Dose Caluculator</MenuItem>
                             </Collapse>
 
                             <MenuItem component={Link} to='/shop' onClick={handleCloseNavMenu}>
@@ -220,6 +223,10 @@ function NavBar({
                             display: { xs: 'none', md: 'flex' },
                             justifyContent: 'center'
                         }}>
+                        <NavButton component={Link} to='/'>
+                            Home
+                        </NavButton>
+
                         <NavButton component={Link} to='/crops'>
                             Crops
                         </NavButton>
@@ -243,8 +250,8 @@ function NavBar({
                             }}
                             disableScrollLock={true}
                         >
-                            <MenuItem onClick={handleCloseServiceMenu}>Weather</MenuItem>
-                            <MenuItem onClick={handleCloseServiceMenu}>Dose Caluculator</MenuItem>
+                            <MenuItem component={Link} to='/weather' onClick={handleCloseServiceMenu}>Weather</MenuItem>
+                            <MenuItem component={Link} to='/doseCalculator' onClick={handleCloseServiceMenu}>Dose Caluculator</MenuItem>
                         </Menu>
 
                         <NavButton component={Link} to='/shop'>
@@ -272,7 +279,9 @@ function NavBar({
 
                         >
                             {shopPages.map((page) => (
-                                <MenuItem component={Link} to={page.link} key={page.name}>{page.name}</MenuItem>
+                                <MenuItem component={Link} to={page.link} key={page.name} onClick={handleClose}>
+                                    {page.name}
+                                </MenuItem>
                             ))}
                         </Menu>
 

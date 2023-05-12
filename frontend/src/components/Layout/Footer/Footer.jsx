@@ -90,8 +90,13 @@ export default function BasicGrid() {
                                     </Link>
                                 </ListItem>
                                 <ListItem disablePadding> 
-                                    <Link component={RouterLink} to='' color='primary.main' underline='hover'>
-                                        <ListItemText primary="Services"/>
+                                    <Link component={RouterLink} to='/weather' color='primary.main' underline='hover'>
+                                        <ListItemText primary="Weather"/>
+                                    </Link> 
+                                </ListItem>
+                                <ListItem disablePadding> 
+                                    <Link component={RouterLink} to='/doseCalculator' color='primary.main' underline='hover'>
+                                        <ListItemText primary="Dose Calculator"/>
                                     </Link> 
                                 </ListItem>
                                 <ListItem disablePadding> 

@@ -28,13 +28,13 @@ export default function Cart({
                 open={cartDrawer}
                 onClose={() => setCartDrawer(false)}
             >
-                <Box width='25em' display='flex' flexDirection='column' p={2}>
+                <Box width='20em' display='flex' flexDirection='column' p={2}>
                     <Stack
                         direction='row'
                         alignItems='center'
                         position='fixed'
                         backgroundColor='white'
-                        width='25em'
+                        width='20em'
                         zIndex={1}
                         height='4em'
                         top='0'
@@ -101,7 +101,7 @@ export default function Cart({
                             </Box>
                         ))}
                     </Box>
-                    <Box width='25em' bottom={0} py={2} position='fixed' backgroundColor='white'>
+                    <Box width='20em' bottom={0} py={2} position='fixed' backgroundColor='white'>
                         {user.cart.length !== 0 ?
                             <Button
                                 component={RouterLink}

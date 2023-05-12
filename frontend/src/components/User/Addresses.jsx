@@ -93,28 +93,32 @@ export default function Addresses({
 
     return (
         <>
-            <Stack direction='row'>
-                <Typography variant='h4' mr='auto' color='primary'>
-                    {addressSec === 'view' ? 'Addresses' : null}
-                    {addressSec === 'add' ? 'Add New Address' : null}
-                    {typeof addressSec === 'number' ? 'Edit Address' : null}
-                </Typography>
-                <Button
-                    sx={{ textTransform: 'none' }}
-                    variant='contained'
-                    onClick={() => {
-                        addressSec === 'view'
-                            ? handleAddressSec('add')
-                            : setAddressSec('view'); setStatus('success')
-                    }}
-                >
-                    {addressSec === 'view' ? 'Add New Address' : 'Back to Addresses'}
-                </Button>
-            </Stack>
+            <Grid container rowSpacing={2}>
+                <Grid item xs={12} sm={6}>
+                    <Typography variant='h4' color='primary'>
+                        {addressSec === 'view' ? 'Addresses' : null}
+                        {addressSec === 'add' ? 'Add New Address' : null}
+                        {typeof addressSec === 'number' ? 'Edit Address' : null}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6} display='flex'>
+                    <Button
+                        sx={{ textTransform: 'none', ml: { sm: 'auto' } }}
+                        variant='contained'
+                        onClick={() => {
+                            addressSec === 'view'
+                                ? handleAddressSec('add')
+                                : setAddressSec('view'); setStatus('success')
+                        }}
+                    >
+                        {addressSec === 'view' ? 'Add New Address' : 'Back to Addresses'}
+                    </Button>
+                </Grid>
+            </Grid>
             {addressSec === 'view' ?
                 <Grid container mt={2} spacing={2}>
                     {user.addresses.map(address => (
-                        <Grid item xs={4} key={address._id}>
+                        <Grid item xs={12} sm={6} md={4} key={address._id}>
                             <Card elavation={2} sx={{ display: 'flex', flexDirection: 'column', height: '15em' }}>
                                 <CardContent sx={{ mb: 'auto' }}>
                                     <Typography maxHeight='3em' overflow='hidden' gutterBottom>
@@ -162,7 +166,7 @@ export default function Addresses({
                             columnSpacing={5}
                         >
                             {addressFields.map(field => (
-                                <Grid item xs={6} key={field}>
+                                <Grid item xs={12} sm={6} key={field}>
                                     <TextField
                                         color='tertiary'
                                         label={startCase(field)}
