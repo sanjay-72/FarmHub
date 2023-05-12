@@ -10,7 +10,7 @@ import Navbar from './components/Layout/Navbar/Navbar'
 import Home from './components/Layout/Home/Home';
 import Footer from "./components/Layout/Footer/Footer"
 import Crops from './components/Crops/Crops'
-import DoseCalculator from './components/Layout/DoseCalculater'
+import DoseCalculator from './components/Services/doseCalculater'
 import ProductList from './components/Shop/ProductList';
 import ProductDetail from './components/Shop/ProductDetail';
 import SignUp from './components/Layout/Navbar/SignUp';
