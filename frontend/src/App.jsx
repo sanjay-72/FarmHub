@@ -10,7 +10,7 @@ import Navbar from './components/Layout/Navbar/Navbar'
 import Home from './components/Layout/Home/Home';
 import Footer from "./components/Layout/Footer/Footer"
 import Crops from './components/Crops/Crops'
-import DoseCalculator from './components/Layout/DoseCalculater'
+import DoseCalculator from './components/Services/doseCalculater'
 import ProductList from './components/Shop/ProductList';
 import ProductDetail from './components/Shop/ProductDetail';
 import SignUp from './components/Layout/Navbar/SignUp';
@@ -27,6 +27,7 @@ import grey from '@mui/material/colors/grey';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import OrderSuccess from './components/Cart/OrderSuccess';
+import Weather from './components/Services/weather';
 
 const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -140,7 +141,8 @@ export default function App() {
                     <Route index element={<Home />} />
                     <Route path='crops' element={<Crops />} />
                     <Route path='crops/:season' element={<CropDetails />} />
-                    <Route path='services' element={<DoseCalculator/>} />
+                    <Route path='doseCalculator' element={<DoseCalculator/>} />
+                    <Route path='weather' element={<Weather/>} />
                     <Route path='about-us' element={<AboutUs />} />
                     <Route path='termsAndConditions' element={<TermsAndConditions />} />
                     <Route path='privacyPolicy' element={<PrivacyPolicy />} />
@@ -159,8 +161,8 @@ export default function App() {
                     />
                     <Route path='order/:orderId' element={<Order user={user} />} />
                     <Route path='checkOut' element={<CheckOutSteps user={user} setTrigger={setTrigger} />} />
-                    <Route path='orderSuccess' element={<OrderSuccess setUserTab={setUserTab}/>}
-                    />
+                    <Route path='orderSuccess' element={<OrderSuccess setUserTab={setUserTab}/>}S/>
+                    
 
                 </Route>
                 <Route path='/shop' element={

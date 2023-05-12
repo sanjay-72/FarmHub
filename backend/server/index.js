@@ -9,6 +9,7 @@ import cors from 'cors';
 import userRoutes from './routes/userRoutes';
 import productRoutes from './routes/productRoutes';
 import orderRoutes from './routes/orderRoutes';
+import paymentRoutes from './routes/paymentRoutes'
 require('dotenv').config();
 const app = express();
 
@@ -48,6 +49,7 @@ app.use(auth.setUser);
 userRoutes(app);
 productRoutes(app);
 orderRoutes(app);
+paymentRoutes(app);
 
 app.listen(process.env.PORT, () =>
     console.log(`Server running on port ${process.env.PORT}`)

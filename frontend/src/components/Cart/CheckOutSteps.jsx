@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Step from '@mui/material/Step';
@@ -93,26 +93,34 @@ const CheckoutSteps = ({ user, setTrigger }) => {
 
         },
     ];
-
+    
     const [activeStep, setActiveStep] = useState(0)
 
-    const subtotal = user.cart.reduce(
-        (acc, item) => acc + item.quantity * item.product.price,
-        0
-    );
+    const [orderCharges, setOrderCharges] = useState(null);
 
-    const shippingCharges = subtotal > 1500 ? 0 : 60;
+    useEffect(() => {
+        if(!user) return;
 
-    const tax = subtotal * 0.18;
+        let subtotal = user.cart.reduce(
+            (acc, item) => acc + item.quantity * item.product.price,
+            0
+        );
 
-    const totalPrice = subtotal + tax + shippingCharges;
+        let shippingCharges = subtotal > 1500 ? 0 : 60;
 
-    const orderCharges = {
-        subtotal: subtotal,
-        shippingCharges: shippingCharges,
-        tax: tax,
-        totalPrice: totalPrice
-    }
+        let tax = subtotal * 0.18;
+
+        let totalPrice = subtotal + tax + shippingCharges;
+
+        setOrderCharges({
+            subtotal: subtotal,
+            shippingCharges: shippingCharges,
+            tax: tax,
+            totalPrice: totalPrice
+        })
+    }, [user])
+
+    if(!orderCharges) return null;
 
     return (
         <Container sx={{ mt: { xs: 7, sm: 11 } }}>
