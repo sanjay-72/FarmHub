@@ -143,6 +143,7 @@ export default function App() {
                     return response.json();
                 })
                 .then((data) => {
+                    console.log(data);
                     this.displayWeather(data)
                 });
         },

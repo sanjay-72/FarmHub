@@ -229,7 +229,7 @@ export default function Home() {
                     sx={{
                         position: 'relative',
                         width: { md: '80%' },
-                        height: { xs: '35rem', md: '20rem' },
+                        height: { xs: '40rem', md: '20rem' },
                         m: 'auto',
                         mt: 3,
                         borderRadius: '1em'
@@ -242,7 +242,7 @@ export default function Home() {
                                 display: 'flex',
                                 flexDirection: { xs: 'column', md: 'row' },
                                 alignItems: 'center',
-                                height: { xs: '35rem', md: '20rem' },
+                                height: { xs: '100%', md: '20rem' },
                                 pb: { xs: 4, md: 0 },
                                 backgroundColor: 'tertiary.main',
                                 color: 'white'
