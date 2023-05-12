@@ -3,10 +3,10 @@ import {
     sendStripeApiKey,
 } from "../controllers/paymentController";
 
-const router = express.Router();
+const paymentRoutes = (app) => {
+    app.route("/payment/process").post(processPayment);
 
-router.route("/payment/process").post(processPayment);
+    app.route("/stripeapikey").get(sendStripeApiKey);
+}
 
-router.route("/stripeapikey").get(sendStripeApiKey);
-
-module.exports = router;
+module.exports = paymentRoutes;

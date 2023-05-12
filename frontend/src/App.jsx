@@ -160,8 +160,8 @@ export default function App() {
                     />
                     <Route path='order/:orderId' element={<Order user={user} />} />
                     <Route path='checkOut' element={<CheckOutSteps user={user} setTrigger={setTrigger} />} />
-                    <Route path='orderSuccess' element={<OrderSuccess setUserTab={setUserTab}/>}
-                    />
+                    <Route path='orderSuccess' element={<OrderSuccess setUserTab={setUserTab}/>}S/>
+                    
 
                 </Route>
                 <Route path='/shop' element={
