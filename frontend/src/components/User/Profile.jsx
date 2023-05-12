@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { startCase } from 'lodash';
 import axios from 'axios';
+import { isEmail, isMobilePhone } from 'validator';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -23,7 +24,7 @@ export default function Profile({
     setProfSec
 }) {
     const [status, setStatus] = useState('success');
-    
+
     const userFields = ['name', 'email', 'phoneNumber'];
 
     const [userValues, setUserValues] = useState({
@@ -33,7 +34,7 @@ export default function Profile({
         email: user.email,
         phoneNumber: user.phoneNumber,
     });
-    
+
     const [userErrors, setUserErrors] = useState({
         name: '',
         email: '',
@@ -42,15 +43,29 @@ export default function Profile({
 
     const handleChange = (e) => {
         setStatus('typing');
-        setUserValues((prevValues) => ({
-            ...prevValues,
+        setUserValues(() => ({
+            ...userValues,
             [e.target.name]: e.target.value,
         }));
-        setUserErrors((prevValues) => ({
-            ...prevValues,
+        setUserErrors(() => ({
+            ...userErrors,
             [e.target.name]: e.target.value === '' ? 'Required' : ''
         }));
     };
+
+    const validateChange = (e) => {
+        let newUserErrors = { ...userErrors };
+
+        if (e.target.name === 'phoneNumber') {
+            if (!isMobilePhone(userValues.phoneNumber, 'en-IN'))
+                newUserErrors.phoneNumber = 'Invalid Phone Number';
+        }
+        else if (e.target.name === 'email') {
+            if (!isEmail(userValues.email)) newUserErrors.email = 'Invalid email';
+        }
+
+        if (newUserErrors !== userErrors) setUserErrors(newUserErrors);
+    }
 
     const handleAvatarUpload = (e) => {
         setStatus('typing');
@@ -65,8 +80,12 @@ export default function Profile({
 
     function updateUser(e) {
         e.preventDefault();
-        const hasEmptyRequiredField = userFields.some((field) => userValues[field] === '');
-        if (hasEmptyRequiredField) return;
+        const focusedElement = document.activeElement;
+        if (focusedElement && focusedElement.blur) focusedElement.blur();
+        userFields.forEach(field => {
+            validateChange({ target: { name: field } });
+        });
+        if (Object.values(userErrors).some(value => value !== '')) return;
         setStatus('submitting');
 
         const formData = new FormData();
@@ -78,10 +97,7 @@ export default function Profile({
         axios.put(
             `${process.env.REACT_APP_BACKEND_URL}/user/${user._id}`,
             formData,
-            {
-                headers: { 'Content-Type': 'multipart/form-data' },
-                withCredentials: true
-            })
+            { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true })
             .then((response) => {
                 if (response.data.errors) {
                     openSnackbar('Changes could not be saved', 'error');
@@ -186,6 +202,7 @@ export default function Profile({
                                             name={field}
                                             value={userValues[field]}
                                             onChange={handleChange}
+                                            onBlur={validateChange}
                                             required
                                             error={userErrors[field] !== ''}
                                             helperText={userErrors[field] ? userErrors[field] : ' '}

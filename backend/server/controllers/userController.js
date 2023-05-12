@@ -77,6 +77,22 @@ export const updateUser = async (req, res) => {
     }
 };
 
+export const updateUserPassword = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        const isMatch = await user.comparePassword(req.body.oldPassword);
+        if (!isMatch) return res.json({ message: 'Old password is incorrect' });
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.userId,
+            { password: req.body.password },
+            { new: true, runValidators: true }
+        );
+        res.json(updatedUser);
+    } catch (err) {
+        res.send(err);
+    }
+}
+
 export const deleteUser = async (req, res) => {
     try {
         await User.findByIdAndRemove(req.params.userId)

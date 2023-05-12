@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import startCase from 'lodash/startCase';
 import axios from 'axios';
+import startCase from 'lodash/startCase';
+import { isEmail, isMobilePhone } from 'validator';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import CardContent from '@mui/material/CardContent';
@@ -42,6 +43,8 @@ export default function SignUp({ setTrigger, openSnackbar }) {
     ];
 
     const [signUpInfo, setSignUpInfo] = useState({
+        avatar: '',
+        avatarSrc: '',
         name: '',
         email: '',
         password: '',
@@ -49,46 +52,100 @@ export default function SignUp({ setTrigger, openSnackbar }) {
         phoneNumber: ''
     });
 
-    const handleChange = (event) => {
-        setSignUpInfo({ ...signUpInfo, [event.target.name]: event.target.value });
+    const [signUpErrors, setSignUpErrors] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        phoneNumber: ''
+    });
+
+    const handleChange = (e) => {
+        setSignUpInfo({ ...signUpInfo, [e.target.name]: e.target.value });
+        setSignUpErrors(() => ({
+            ...signUpErrors,
+            [e.target.name]: e.target.value === '' ? 'Required' : ''
+        }));
     };
 
-    const [avatar, setAvatar] = useState();
+    const validateChange = (e) => {
+        if (e.target.value === '') {
+            setSignUpErrors(() => ({
+                ...signUpErrors,
+                [e.target.name]: 'Required'
+            }));
+            return;
+        }
 
-    const registerDataChange = (e) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                setAvatar(reader.result);
-            }
-        };
-        reader.readAsDataURL(e.target.files[0]);
+        let newSignUpErrors = { ...signUpErrors };
+        
+        if(e.target.name === 'phoneNumber') {
+            if (!isMobilePhone(signUpInfo.phoneNumber, 'en-IN')) 
+                newSignUpErrors.phoneNumber = 'Invalid Phone Number';
+        }
+        else if(e.target.name === 'email') {
+            if(!isEmail(signUpInfo.email)) 
+                newSignUpErrors.email = 'Invalid email';
+        }
+        else if (e.target.name === 'password') {
+            if (signUpInfo.password.length < 6)
+                newSignUpErrors.password = 'Password must contain at least 6 characters';
+            if (signUpInfo.confirmPassword !== '' && signUpInfo.password !== signUpInfo.confirmPassword)
+                newSignUpErrors.confirmPassword = 'Passwords do not match';
+        }
+        else if (e.target.name === 'confirmPassword') {
+            if (signUpInfo.password !== signUpInfo.confirmPassword)
+                newSignUpErrors.confirmPassword = 'Passwords do not match';
+        }
+
+        if(newSignUpErrors !== signUpErrors) setSignUpErrors(newSignUpErrors);
+    }
+
+    const handleAvatarUpload = (e) => {
+        const file = e.target.files[0];
+        const imageUrl = URL.createObjectURL(file);
+        setSignUpInfo((prevValues) => ({
+            ...prevValues,
+            avatar: file,
+            avatarSrc: imageUrl,
+        }));
     }
 
     async function createUser(e) {
         e.preventDefault();
-
-        if (signUpInfo.password !== signUpInfo.confirmPassword) {
+        
+        if (fields.some(field => signUpInfo[field.name] === '')) {
+            let newSignUpErrors = { ...signUpErrors };
+            fields.forEach(field => {
+                if (signUpInfo[field.name] === '')
+                newSignUpErrors[field.name] = 'Required';
+            });
+            setSignUpErrors(newSignUpErrors);
             return;
-        };
+        }
 
-        const userDetails = {
-            avatar: avatar,
-            name: signUpInfo.name,
-            email: signUpInfo.email,
-            password: signUpInfo.password,
-            phoneNumber: signUpInfo.phoneNumber
-        };
+        if(Object.values(signUpErrors).some(value => value !== '')) return;
 
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/register`, userDetails, { withCredentials: true })
+        const formData = new FormData();
+        formData.append('avatar', signUpInfo.avatar);
+        formData.append('name', signUpInfo.name);
+        formData.append('email', signUpInfo.email);
+        formData.append('password', signUpInfo.password);
+        formData.append('confirmPassword', signUpInfo.confirmPassword);
+        formData.append('phoneNumber', signUpInfo.phoneNumber);
+
+        axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}/user/register`,
+            formData,
+            { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true })
             .then((response) => {
-                if (!response.data.errors) {
-                    openSnackbar('Account created successfully', 'success');
-                    loginUser();
-                }
-                else {
+                if (response.data.errors) {
                     openSnackbar('Account could not be created', 'error');
+                    console.log(response.data);
+                    return;
                 }
+                openSnackbar('Account created successfully', 'success');
+                loginUser();
             })
             .catch((error) => console.log(error));
     }
@@ -114,7 +171,7 @@ export default function SignUp({ setTrigger, openSnackbar }) {
     return (
         <Container maxWidth='xl' sx={{ background: 'url(/Images/signupbg.jpg) ', py: '3rem' }}>
             <Card sx={{ width: 500, mx: 'auto' }}>
-                <CardContent sx={{ p: 5 }} component='form' onSubmit={createUser}>
+                <CardContent sx={{ p: 5 }} component='form' onSubmit={createUser} noValidate>
                     <Stack>
                         <img
                             src='/Images/main-logo.png'
@@ -124,13 +181,13 @@ export default function SignUp({ setTrigger, openSnackbar }) {
                         <Typography align='center' variant='h6' mt={2}>Create Your Account</Typography>
                         <Avatar
                             sx={{ mx: 'auto', width: '5em', height: '5em', mt: '1rem' }}
-                            src={avatar}
+                            src={signUpInfo.avatarSrc}
                         />
                         <Button variant="contained" color='tertiary' component="label" sx={{ mx: 'auto', my: 3 }}>
                             Upload your Image
                             <input
                                 hidden
-                                onChange={registerDataChange}
+                                onChange={handleAvatarUpload}
                                 name='avatar'
                                 accept="image/*"
                                 type="file"
@@ -145,10 +202,13 @@ export default function SignUp({ setTrigger, openSnackbar }) {
                                     required
                                     value={signUpInfo[field.name]}
                                     onChange={handleChange}
+                                    onBlur={validateChange}
                                     name={field.name}
                                     label={field.label}
                                     type={field.type}
                                     fullWidth
+                                    error={signUpErrors[field.name] !== ''}
+                                    helperText={signUpErrors[field.name] ? signUpErrors[field.name] : ' '}
                                 />
                             </Box>
                         ))}

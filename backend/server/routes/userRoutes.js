@@ -15,6 +15,7 @@ import {
     updateAddress,
     updateInCart,
     updateUser,
+    updateUserPassword,
     userList
 } from '../controllers/userController';
 const userRoutes = (app) => {
@@ -43,6 +44,8 @@ const userRoutes = (app) => {
         .delete(deleteUser);
     app.route('/user/:userId')
         .put(upload.single('avatar'), updateUser);
+    app.route('/user/:userId/password')
+        .put(updateUserPassword);
     app.route('/users')
         .get(userList);
 
