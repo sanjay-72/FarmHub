@@ -27,6 +27,7 @@ import grey from '@mui/material/colors/grey';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import OrderSuccess from './components/Cart/OrderSuccess';
+import Weather from './components/Services/weather';
 
 const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -141,7 +142,8 @@ export default function App() {
                     <Route index element={<Home />} />
                     <Route path='crops' element={<Crops />} />
                     <Route path='crops/:season' element={<CropDetails />} />
-                    <Route path='services' element={<DoseCalculator/>} />
+                    <Route path='doseCalculator' element={<DoseCalculator/>} />
+                    <Route path='weather' element={<Weather/>} />
                     <Route path='about-us' element={<AboutUs />} />
                     <Route path='termsAndConditions' element={<TermsAndConditions />} />
                     <Route path='privacyPolicy' element={<PrivacyPolicy />} />
