@@ -120,6 +120,62 @@ export default function App() {
         setSnackbar({ ...snackbar, open: false });
     };
 
+    // -------------------------------- Weather --------------------------------
+
+    const [weatherDetails, setWeatherDetails] = useState(null);
+
+    const [place, setPlace] = useState("");
+
+    let weather = {
+        apiKey: "0bff6234f35d3b5aef48e0dd8d8d27b9",
+        fetchWeather: function (city) {
+            fetch(
+                "https://api.openweathermap.org/data/2.5/weather?q=" +
+                city +
+                "&units=metric&appid=" +
+                this.apiKey
+            )
+                .then((response) => {
+                    if (!response.ok) {
+                        alert("No weather found.");
+                        throw new Error("No weather found.");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    this.displayWeather(data)
+                });
+        },
+        displayWeather: function (data) {
+            const { name } = data;
+            const { icon, description } = data.weather[0];
+            const { temp, humidity } = data.main;
+            const { speed } = data.wind;
+            setWeatherDetails(() => ({
+                city: name,
+                temp: temp + "°C",
+                icon: "https://openweathermap.org/img/wn/" + icon + ".png",
+                description: description,
+                humidity: humidity + "%",
+                wind: speed + " km/h",
+            }))
+        },
+        search: function () {
+            this.fetchWeather(place);
+        },
+    };
+
+    useEffect(() => {
+        axios.get("https://ipapi.co/json")
+            .then((response) => {
+                console.log(response.data)
+                setPlace(response.data.city)
+                weather.fetchWeather(response.data.city);
+            })
+
+    }, [])
+
+
     return (
         <ThemeProvider theme={theme}>
             <Routes>
@@ -133,6 +189,8 @@ export default function App() {
                             updateInCart={updateInCart}
                             removeFromCart={removeFromCart}
                             setUserTab={setUserTab}
+                            weatherDetails={weatherDetails}
+                            setWeatherDetails={setWeatherDetails}
                         />
                         <Outlet />
                         <Footer />
@@ -141,8 +199,14 @@ export default function App() {
                     <Route index element={<Home />} />
                     <Route path='crops' element={<Crops />} />
                     <Route path='crops/:season' element={<CropDetails />} />
-                    <Route path='doseCalculator' element={<DoseCalculator/>} />
-                    <Route path='weather' element={<Weather/>} />
+                    <Route path='doseCalculator' element={<DoseCalculator />} />
+                    <Route path='weather' element={<Weather
+                        weatherDetails={weatherDetails}
+                        setWeatherDetails={setWeatherDetails}
+                        place={place}
+                        setPlace={setPlace}
+                        weather={weather}
+                    />} />
                     <Route path='about-us' element={<AboutUs />} />
                     <Route path='termsAndConditions' element={<TermsAndConditions />} />
                     <Route path='privacyPolicy' element={<PrivacyPolicy />} />
