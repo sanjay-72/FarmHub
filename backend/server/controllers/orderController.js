@@ -15,8 +15,9 @@ export const createOrder = async (req, res) => {
                 shippingCharges: subtotal > 1500 ? 0 : 60,
                 tax: subtotal * 0.18,
                 total: subtotal + (subtotal * 0.18) + (subtotal > 1500 ? 0 : 60),
+                paymentInfo: req.body.paymentInfo,
                 user: req.params.userId,
-                address: req.body
+                address: req.body.address
             });
             newOrders.push(newOrder);
         }

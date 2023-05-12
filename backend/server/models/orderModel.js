@@ -9,6 +9,16 @@ const orderSchema = new Schema({
     tax: { type: Number, required: true },
     shippingCharges: { type: Number, required: true },
     total: { type: Number, required: true },
+    paymentInfo:{
+        id:{
+            type: String,
+            required: true,
+        },
+        status:{
+            type: String,
+            required: true,
+        },
+    },
     status: {
         type: String,
         enum: [

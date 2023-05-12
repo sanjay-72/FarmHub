@@ -11,18 +11,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 
-const ConfirmOrder = ({ user, setActiveStep, shippingAddress }) => {
+const ConfirmOrder = ({ user, orderCharges, setActiveStep, shippingAddress }) => {
 
-    const subtotal = user.cart.reduce(
-        (acc, item) => acc + item.quantity * item.product.price,
-        0
-    );
-
-    const shippingCharges = subtotal > 1500 ? 0 : 60;
-
-    const tax = subtotal * 0.18;
-
-    const totalPrice = subtotal + tax + shippingCharges;
 
     return (
         <Container sx={{ mt: { xs: 6, sm: 8 } }}>
@@ -114,26 +104,26 @@ const ConfirmOrder = ({ user, setActiveStep, shippingAddress }) => {
                             <Box display='flex'>
                                 <Typography mr='auto'>Subtotal:</Typography>
                                 <Typography color="tertiary.main" fontWeight='bold'>
-                                    ₹{(subtotal).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                                    ₹{(orderCharges.subtotal).toLocaleString(undefined, { maximumFractionDigits: 2 })}
                                 </Typography>
                             </Box>
                             <Box display='flex' mt={1}>
                                 <Typography mr='auto'>Shipping Charges:</Typography>
                                 <Typography color="tertiary.main" fontWeight='bold'>
-                                    ₹{(shippingCharges).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                                    ₹{(orderCharges.shippingCharges).toLocaleString(undefined, { maximumFractionDigits: 2 })}
                                 </Typography>
                             </Box>
                             <Box display='flex' mt={1}>
                                 <Typography mr='auto'>GST(18%):</Typography>
                                 <Typography color="tertiary.main" fontWeight='bold'>
-                                    ₹{(tax).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                                    ₹{(orderCharges.tax).toLocaleString(undefined, { maximumFractionDigits: 2 })}
                                 </Typography>
                             </Box>
                             <Divider sx={{ mt: 1 }} />
                             <Box display='flex' mt={1}>
                                 <Typography mr='auto'>Total:</Typography>
                                 <Typography color="tertiary.main" fontWeight='bold'>
-                                    ₹{(totalPrice).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                                    ₹{(orderCharges.totalPrice).toLocaleString(undefined, { maximumFractionDigits: 2 })}
                                 </Typography>
                             </Box>
                         </CardContent>

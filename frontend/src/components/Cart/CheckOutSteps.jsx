@@ -96,6 +96,24 @@ const CheckoutSteps = ({ user, setTrigger }) => {
 
     const [activeStep, setActiveStep] = useState(0)
 
+    const subtotal = user.cart.reduce(
+        (acc, item) => acc + item.quantity * item.product.price,
+        0
+    );
+
+    const shippingCharges = subtotal > 1500 ? 0 : 60;
+
+    const tax = subtotal * 0.18;
+
+    const totalPrice = subtotal + tax + shippingCharges;
+
+    const orderCharges = {
+        subtotal: subtotal,
+        shippingCharges: shippingCharges,
+        tax: tax,
+        totalPrice: totalPrice
+    }
+
     return (
         <Container sx={{ mt: { xs: 7, sm: 11 } }}>
             <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />} >
@@ -118,17 +136,28 @@ const CheckoutSteps = ({ user, setTrigger }) => {
             </Stepper>
             {
                 activeStep === 0 ?
-                    <Shipping user={user} setActiveStep={setActiveStep} addressIndex={addressIndex} setAddressIndex={setAddressIndex} />
+                    <Shipping 
+                        user={user} 
+                        setActiveStep={setActiveStep} 
+                        addressIndex={addressIndex} 
+                        setAddressIndex={setAddressIndex}
+                    />
                     : null
             }
             {
                 activeStep === 1 ?
-                    <ConfirmOrder user={user} setActiveStep={setActiveStep} shippingAddress={user.addresses[addressIndex]} />
+                    <ConfirmOrder 
+                        user={user}
+                        orderCharges={orderCharges}
+                        setActiveStep={setActiveStep} 
+                        shippingAddress={user.addresses[addressIndex]}
+                    />
                     : null}
             {
                 activeStep === 2 ?
                     <Payment 
                         user={user}
+                        orderCharges={orderCharges}
                         setTrigger={setTrigger} 
                         setActiveStep={setActiveStep} 
                         shippingAddress={user.addresses[addressIndex]}
