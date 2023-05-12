@@ -5,11 +5,12 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 
 
 
-const Shipping = ({ user, setActiveStep, addressIndex, setAddressIndex }) => {
+const Shipping = ({ user, setActiveStep, addressIndex, setAddressIndex, setUserTab }) => {
 
 
 
@@ -29,9 +30,9 @@ const Shipping = ({ user, setActiveStep, addressIndex, setAddressIndex }) => {
                 }}>
                     <CardContent>
                         <Typography variant="h5" ml={3} mt={3} className="shippingHeading" color="tertiary.main">Choose Delivery Address</Typography>
-                        <Grid container m={2} spacing={2}>
+                        <Grid container my={2} spacing={2}>
                             {user.addresses.map(address => (
-                                <Grid item xs={3} key={address._id}>
+                                <Grid item xs={12} sm={6} md={3} key={address._id}>
                                     <Card
                                         elavation={2}
                                         onClick={
@@ -60,9 +61,12 @@ const Shipping = ({ user, setActiveStep, addressIndex, setAddressIndex }) => {
                                 </Grid>
                             ))}
                         </Grid>
+                        <Button component={Link} to='/user' onClick={() => setUserTab(1)} color='tertiary' variant='contained'>
+                            Add Addresss
+                        </Button>
                     </CardContent>
                 </Card>
-                <Button onClick={() => setActiveStep(1)} size='large' sx={{ textTransform: 'none' }} color='tertiary' variant='contained'>
+                <Button disabled={addressIndex === null} onClick={() => setActiveStep(1)} size='large' sx={{ textTransform: 'none' }} color='tertiary' variant='contained'>
                     Confirm Order
                 </Button>
 
