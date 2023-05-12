@@ -53,9 +53,6 @@ const theme = createTheme({
         cropHeading: {
             main: '#40513B',
         },
-        // cropSubHeading:{
-        //     main: '#40513B'
-        // }
     },
 });
 
@@ -173,6 +170,7 @@ export default function App() {
                 setPlace(response.data.city)
                 weather.fetchWeather(response.data.city);
             })
+            .catch((error) => console.log(error));
 
     }, [])
 

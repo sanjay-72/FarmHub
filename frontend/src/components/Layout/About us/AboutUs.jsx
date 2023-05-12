@@ -12,26 +12,26 @@ import Box from "@mui/material/Box";
 
 //Content array for cards
 const profiles = [
-    {
-        name: "MOHAMMAD ARSHAD KHAN",
-        image: "/Images/arshad.jpg",
-        twitter: "https://twitter.com/marshadkhn ",
-    },
-    {
-        name: "ADITYA KUMAR MISHRA",
-        image: "/Images/aditya.jpeg",
-        twitter: "https://twitter.com/Aditya_m037",
-    },
-    {
-        name: "ABDUL MANNAN",
-        image: "/Images/abdul.jpg",
-        twitter: "https://twitter.com/Abdul_365m",
-    },
-    {
-        name: "ANKIT KUMAR MISHRA",
-        image: "/Images/ankit.jpeg",
-        twitter: "#",
-    },
+  {
+    name: "MOHAMMAD ARSHAD KHAN",
+    image: "/Images/arshad.jpg",
+    twitter: "https://twitter.com/marshadkhn ",
+  },
+  {
+    name: "ADITYA KUMAR MISHRA",
+    image: "/Images/aditya.jpeg",
+    twitter: "https://twitter.com/Aditya_m037",
+  },
+  {
+    name: "ABDUL MANNAN",
+    image: "/Images/abdul.jpg",
+    twitter: "https://twitter.com/Abdul_365m",
+  },
+  {
+    name: "ANKIT KUMAR MISHRA",
+    image: "/Images/ankit. jpeg",
+    twitter: "https://twitter.com/AnkitKumar30461",
+  },
 ];
 
 const AboutUs = () => {
