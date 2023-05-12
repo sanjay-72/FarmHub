@@ -1,4 +1,4 @@
- import { useState, useEffect, forwardRef } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import axios from 'axios'
 import './App.css';
 import '@fontsource/roboto/300.css';
@@ -125,7 +125,6 @@ export default function App() {
                 <Route path='/' element={
                     <>
                         <Navbar
-                            shopNav={false}
                             setTrigger={setTrigger}
                             user={user}
                             loginDialog={loginDialog}
@@ -167,7 +166,6 @@ export default function App() {
                 <Route path='/shop' element={
                     <>
                         <Navbar
-                            shopNav={true}
                             setTrigger={setTrigger}
                             user={user}
                             loginDialog={loginDialog}

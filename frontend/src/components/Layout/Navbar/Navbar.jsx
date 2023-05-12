@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import SignIn from './SignIn'
 import Cart from './Cart';
+import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,27 +19,19 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
-const mainPages = [
-    {
-        name: 'Crops',
-        link: '/crops'
-    },
-    {
-        name: 'Services',
-        link: '/services'
-    },
-    {
-        name: 'Shop',
-        link: '/shop'
-    }
-];
+const NavButton = styled(Button)(({ theme }) => ({
+    my: 2,
+    fontWeight: 'bold',
+    minWidth: 0,
+    color: theme.palette.tertiary.main,
+    display: 'block'
+}));
 
 const shopPages = [
-    {
-        name: 'Shop Home',
-        link: '/shop'
-    },
     {
         name: 'Fertilizers',
         link: '/shop/products/category/Fertilizers'
@@ -62,7 +55,6 @@ const shopPages = [
 ];
 
 function NavBar({
-    shopNav,
     setTrigger,
     user,
     loginDialog,
@@ -72,28 +64,41 @@ function NavBar({
     setUserTab
 }) {
     const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
-
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-
+    
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
 
-    const [pages, setPages] = useState([]);
+    const [anchorElServices, setAnchorElServices] = useState(null);
+    const openServices = Boolean(anchorElServices);
+    const handleOpenServicesMenu = (event) => {
+        setAnchorElServices(event.currentTarget);
+    };
+    const handleCloseServiceMenu = () => {
+        setAnchorElServices(null);
+    };
 
-    useEffect(() => {
-        shopNav ? setPages(shopPages) : setPages(mainPages);
-    }, [shopNav])
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const [serviceCollapse, setServiceCollapse] = useState(false);
+    const [categoriesCollapse, setCategoriesCollapse] = useState(false);
 
     function signOut() {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/logout`, { withCredentials: true })
@@ -136,13 +141,40 @@ function NavBar({
                             sx={{
                                 display: { xs: 'block', md: 'none' },
                             }}
+                            PaperProps={{
+                                style: {
+                                    width: '15em',
+                                },
+                            }}
                             disableScrollLock={true}
                         >
-                            {pages.map((page) => (
-                                <MenuItem component={Link} to={page.link} key={page.name} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page.name}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem component={Link} to='/crops' onClick={handleCloseNavMenu}>
+                                <Typography textAlign="center">Crops</Typography>
+                            </MenuItem>
+
+                            <MenuItem onClick={() => setServiceCollapse(!serviceCollapse)}>
+                                <Typography textAlign="center" mr='auto'>Services</Typography>
+                                {serviceCollapse ? <ExpandLess /> : <ExpandMore />}
+                            </MenuItem>
+                            <Collapse in={serviceCollapse} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
+                                <MenuItem onClick={handleCloseNavMenu}>Weather</MenuItem>
+                                <MenuItem onClick={handleCloseNavMenu}>Dose Caluculator</MenuItem>
+                            </Collapse>
+
+                            <MenuItem component={Link} to='/shop' onClick={handleCloseNavMenu}>
+                                <Typography textAlign="center">Shop</Typography>
+                            </MenuItem>
+
+                            <MenuItem onClick={() => setCategoriesCollapse(!categoriesCollapse)}>
+                                <Typography textAlign="center" mr='auto'>Categories</Typography>
+                                {categoriesCollapse ? <ExpandLess /> : <ExpandMore />}
+                            </MenuItem>
+                            <Collapse in={categoriesCollapse} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
+                                {shopPages.map((page) => (
+                                    <MenuItem component={Link} to={page.link} key={page.name}>{page.name}</MenuItem>
+                                ))}
+                            </Collapse>
+
                             {!user ?
                                 <MenuItem onClick={() => { handleCloseNavMenu(); setLoginDialog(true); }}>
                                     <Typography textAlign="center">Sign In</Typography>
@@ -188,26 +220,69 @@ function NavBar({
                             display: { xs: 'none', md: 'flex' },
                             justifyContent: 'center'
                         }}>
-                        {pages.map((page) => (
-                            <Button
-                                component={Link}
-                                to={page.link}
-                                key={page.name}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, fontWeight: 'bold', minWidth: 0, color: 'tertiary.main', display: 'block' }}
-                            >
-                                {page.name}
-                            </Button>
-                        ))}
+                        <NavButton component={Link} to='/crops'>
+                            Crops
+                        </NavButton>
+
+                        <NavButton
+                            id="basic-button"
+                            aria-controls={openServices ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={openServices ? 'true' : undefined}
+                            onClick={handleOpenServicesMenu}
+                        >
+                            Services
+                        </NavButton>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorElServices}
+                            open={openServices}
+                            onClose={handleCloseServiceMenu}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                            disableScrollLock={true}
+                        >
+                            <MenuItem onClick={handleCloseServiceMenu}>Weather</MenuItem>
+                            <MenuItem onClick={handleCloseServiceMenu}>Dose Caluculator</MenuItem>
+                        </Menu>
+
+                        <NavButton component={Link} to='/shop'>
+                            Shop
+                        </NavButton>
+
+                        <NavButton
+                            id="categories-button"
+                            aria-controls={open ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                        >
+                            Categories
+                        </NavButton>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'categories-button',
+                            }}
+                            disableScrollLock={true}
+
+                        >
+                            {shopPages.map((page) => (
+                                <MenuItem component={Link} to={page.link} key={page.name}>{page.name}</MenuItem>
+                            ))}
+                        </Menu>
+
                         {!user ?
-                            <Button
-                                onClick={() => { handleCloseNavMenu(); setLoginDialog(true); }}
-                                sx={{ my: 2, fontWeight: 'bold', color: 'tertiary.main', display: 'block' }}
-                            >
+                            <NavButton onClick={() => { setLoginDialog(true); }}>
                                 Sign In
-                            </Button>
+                            </NavButton>
                             : null
                         }
+
                     </Box>
                     {/* -------------------------------- Universal View -------------------------------- */}
                     <Box
