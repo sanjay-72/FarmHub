@@ -33,7 +33,8 @@ const userSchema = new Schema({
         _id: false,
         product: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
         quantity: { type: Number, required: true },
-    }]
+    }],
+    resetPasswordOtp: String
 }, {
     timestamps: true,
     virtuals: {
@@ -56,7 +57,6 @@ const userSchema = new Schema({
             }
         }
     },
-    resetPasswordOtp: Number,
 });
 
 userSchema.set('toJSON', { getters: true });
@@ -93,8 +93,6 @@ userSchema.methods.comparePassword = async function comparePassword(candidate) {
 // Generating Password Reset Token
 userSchema.methods.getResetPasswordOtp = function () {
     const otp = Math.floor(100000 + Math.random() * 900000)
-
-
     return otp;
 };
 

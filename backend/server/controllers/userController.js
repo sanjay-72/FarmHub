@@ -2,12 +2,11 @@ import passport from 'passport';
 import bucket from '../config/gcBucket';
 import Product from '../models/productModel';
 import User from '../models/userModel';
-
 require('dotenv').config();
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
 import twilio from "twilio";
-// import fast2sms from "fast-two-sms";
+
 
 
 
@@ -79,8 +78,8 @@ export const updateUser = async (req, res) => {
 
 export const changePassword = async (req, res) => {
     try {
-        const updatedUser = await User.findByIdAndUpdate(
-            req.params.userId,
+        const updatedUser = await User.findOneAndUpdate(
+            { phoneNumber: req.body.phoneNumber},
             { password: req.body.password },
             { new: true, runValidators: true }
         );
@@ -254,7 +253,12 @@ export const forgotPassword = async (req, res) => {
     const user = await User.findOne({ phoneNumber: req.body.phoneNumber });
     const phoneNumber = req.body.phoneNumber;
     const client = twilio(accountSid, authToken);
-    const OTP = user.getResetPasswordOtp()
+    const Otp = user.getResetPasswordOtp()
+    const userUpdate = await User.findOneAndUpdate(
+        { phoneNumber: req.body.phoneNumber }, 
+        { resetPasswordOtp: Otp },
+        { new: true, runValidators: true })
+    res.json({ user: userUpdate });
 
     if (!user) {
         res.json({ message: 'user not found' });
@@ -262,25 +266,30 @@ export const forgotPassword = async (req, res) => {
     }
 
     try {
-
-        console.log(OTP);
+        console.log(Otp);
         client.messages
             .create({
-                body: ` ${OTP} This is your OTP for Farmhub password reset`,
+                body: ` ${Otp} This is your OTP for Farmhub password reset`,
                 from: '+12708136198',
-                to: phoneNumber,
+                to: `+91 ${phoneNumber}`,
             })
             .then((message) => {
-                console.log(message)
-                if (req.body.OTP !== user.resetPasswordOtp) {
-                    return res.json({ message: 'Invalid OTP' })
-                }
-                changePassword()
+                // console.log(message)
+                // res.json(message)
             })
     } catch (error) {
         res.send(error)
     }
 };
+
+export const checkOtp = async (req, res) => {
+    const user = await User.findOne({ phoneNumber: req.body.phoneNumber });
+    if (req.body.otp !== user.resetPasswordOtp) {
+        return res.json({ message: 'Invalid OTP' })
+    }
+    res.json({ message: 'Valid OTP' });
+    // changePassword(req,res)
+}
 
 
 

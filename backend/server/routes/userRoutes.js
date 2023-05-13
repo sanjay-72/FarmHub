@@ -2,6 +2,8 @@ import multer from 'multer';
 import {
     addAddress,
     addToCart,
+    changePassword,
+    checkOtp,
     createUser,
     currentUserDetails,
     deleteAddress,
@@ -47,6 +49,10 @@ const userRoutes = (app) => {
         .put(resetPassword);
     app.route("/password/forgot")
         .post(forgotPassword);
+    app.route("/password/otpCheck")
+        .post(checkOtp);
+    app.route("/password/changePassword")
+        .post(changePassword);
     app.route('/users')
         .get(userList);
 
