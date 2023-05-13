@@ -75,9 +75,9 @@ function ColorlibStepIcon(props) {
     );
 }
 
-const CheckoutSteps = ({ user, setTrigger }) => {
+const CheckoutSteps = ({ user, setTrigger, setUserTab }) => {
 
-    const [addressIndex, setAddressIndex] = useState(0)
+    const [addressIndex, setAddressIndex] = useState(null)
 
     const steps = [
         {
@@ -149,6 +149,7 @@ const CheckoutSteps = ({ user, setTrigger }) => {
                         setActiveStep={setActiveStep} 
                         addressIndex={addressIndex} 
                         setAddressIndex={setAddressIndex}
+                        setUserTab={setUserTab}
                     />
                     : null
             }

@@ -53,9 +53,6 @@ const theme = createTheme({
         cropHeading: {
             main: '#40513B',
         },
-        // cropSubHeading:{
-        //     main: '#40513B'
-        // }
     },
 });
 
@@ -143,6 +140,7 @@ export default function App() {
                     return response.json();
                 })
                 .then((data) => {
+                    console.log(data);
                     this.displayWeather(data)
                 })
                 .catch((err) => {
@@ -175,6 +173,7 @@ export default function App() {
                 setPlace(response.data.city)
                 weather.fetchWeather(response.data.city);
             })
+            .catch((error) => console.log(error));
 
     }, [])
 
@@ -242,7 +241,7 @@ export default function App() {
                         />}
                     />
                     <Route path='order/:orderId' element={<Order user={user} />} />
-                    <Route path='checkOut' element={<CheckOutSteps user={user} setTrigger={setTrigger} />} />
+                    <Route path='checkOut' element={<CheckOutSteps user={user} setTrigger={setTrigger} setUserTab={setUserTab} />} />
                     <Route path='orderSuccess' element={<OrderSuccess setUserTab={setUserTab}/>}S/>
                     <Route path='/shop'>
                         <Route index element={<ShopHome />} />

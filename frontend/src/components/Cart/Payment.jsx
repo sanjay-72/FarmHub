@@ -112,7 +112,7 @@ const Payments = ({ user, orderCharges, setTrigger, setActiveStep, shippingAddre
                     marginTop: "1rem",
                     marginBottom: "3rem",
                     borderRadius: "1rem",
-                    width: "50%",
+                    width: { xs: '100%', md: "50%" },
                     height: "100%"
                 }}>
 

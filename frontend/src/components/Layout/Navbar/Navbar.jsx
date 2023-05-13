@@ -310,7 +310,7 @@ function NavBar({
                             <SearchIcon color="tertiary" fontSize='inherit' />
                         </IconButton> */}
                         {weatherDetails && 
-                            <Box display='flex' alignItems='center' justifyContent='center' pr='1.8rem'>
+                            <Box display='flex' alignItems='center' justifyContent='center' sx={{ pr: { xs: 0, md: 2 } }}>
 
                                 <img src={weatherDetails.icon} alt="" style={{
                                     width: '30%'
