@@ -94,6 +94,7 @@ export const resetPassword = async (req, res) => {
         const user = await User.findById(req.params.userId);
         const isMatch = await user.comparePassword(req.body.oldPassword);
         if (!isMatch) return res.json({ message: 'Old password is incorrect' });
+        req.body.phoneNumber = user.phoneNumber;
         changePassword(req, res)
 
     } catch (err) {

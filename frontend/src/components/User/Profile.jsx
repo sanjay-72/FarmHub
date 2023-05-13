@@ -177,6 +177,40 @@ export default function Profile({
         if (newPassErrors !== passErrors) setPassErrors(newPassErrors);
     }
 
+    async function submitPass(e) {
+        e.preventDefault();
+
+        if (passFields.some(field => updatePass[field] === '')) {
+            let newPassErrors = { ...passErrors };
+            passFields.forEach(field => {
+                if (updatePass[field] === '')
+                newPassErrors[field] = 'Required';
+            });
+            setPassErrors(newPassErrors);
+            return;
+        }
+
+        if (Object.values(passErrors).some(value => value !== '')) return;
+
+        const PassDetails = {
+            oldPassword: updatePass.oldPass,
+            password: updatePass.password,
+        };
+
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/user/${user._id}/password`, PassDetails, { withCredentials: true })
+            .then((response) => {
+                if(response.data.message === 'Old password is incorrect') {
+                    setPassErrors(() => ({
+                        ...passErrors,
+                        oldPass: 'Old password is incorrect'
+                    }));
+                    return;
+                }
+                openSnackbar('Password changed successfully', 'success');
+            })
+            .catch((error) => console.log(error));
+    }
+
     return (
         <>
             <Stack direction='row'>
@@ -200,7 +234,7 @@ export default function Profile({
                 component="form"
                 noValidate
                 autoComplete="off"
-                onSubmit={updateUser}
+                onSubmit={profSec ? updateUser : submitPass}
                 sx={{ borderRadius: '0.5rem', mt: 2 }}
             >
                 <CardContent sx={{ px: 4, pb: 0, pt: 3 }}>
@@ -263,6 +297,7 @@ export default function Profile({
                                             label={startCase(field)}
                                             fullWidth
                                             name={field}
+                                            type='password'
                                             value={updatePass[field]}
                                             onChange={changePassValues}
                                             onBlur={validatePass}
@@ -302,7 +337,9 @@ export default function Profile({
                             </Button>
                         </>
                         :
-                        <Button variant='outlined' type='button' color='tertiary'>Update Password</Button>
+                        <Button variant='contained' type='submit' color='tertiary'>
+                            Update Password
+                        </Button>
                     }
                 </CardActions>
             </Card>

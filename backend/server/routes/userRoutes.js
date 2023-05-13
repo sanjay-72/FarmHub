@@ -40,13 +40,13 @@ const userRoutes = (app) => {
 
     app.route('/user')
         .get(currentUserDetails);
+    app.route('/user/:userId/password')
+        .put(resetPassword);
     app.route('/user/:userId')
         .get(displayUser)
         .delete(deleteUser);
     app.route('/user/:userId')
         .put(upload.single('avatar'), updateUser);
-    app.route('/user/:userId/password')
-        .put(resetPassword);
     app.route("/password/forgot")
         .post(forgotPassword);
     app.route("/password/otpCheck")

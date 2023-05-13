@@ -50,8 +50,58 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
     });
 
     const changeForgotPass = (event) => {
-        setForgotPass({ ...loginInfo, [event.target.name]: event.target.value });
+        setForgotPass({ ...forgotPass, [event.target.name]: event.target.value });
     };
+
+    const [validOtp, setValidOtp] = useState(true);
+
+    async function getOtp(e) {
+        e.preventDefault();
+
+        const PassDetails = {
+            phoneNumber: forgotPass.phoneNumber
+        };
+
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/password/forgot`, PassDetails, { withCredentials: true })
+            .then(() => {
+                setStatus('otp');
+            })
+            .catch((error) => console.log(error));
+    }
+
+    async function checkOtp(e) {
+        e.preventDefault();
+
+        const PassDetails = {
+            phoneNumber: forgotPass.phoneNumber,
+            otp: forgotPass.otp
+        };
+
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/password/otpCheck`, PassDetails, { withCredentials: true })
+            .then((response) => {
+                if(response.data.message === 'Invalid OTP') {
+                    setValidOtp(false);
+                    return;
+                }
+                setStatus('change');
+            })
+            .catch((error) => console.log(error));
+    }
+
+    async function submitPass(e) {
+        e.preventDefault();
+
+        const PassDetails = {
+            phoneNumber: forgotPass.phoneNumber,
+            password: forgotPass.password,
+        };
+
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/password/changePassword`, PassDetails, { withCredentials: true })
+            .then(() => {
+                setStatus('signIn')
+            })
+            .catch((error) => console.log(error));
+    }
 
     return (
         <Dialog open={open} onClose={() => { setOpen(false); setStatus('signIn'); }} disableScrollLock={true}>
@@ -101,7 +151,7 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
                 </Box>
             }
             {status === 'forgot' &&
-                <>
+                <Box component='form' onSubmit={getOtp}>
                     <DialogTitle>Forgot Password</DialogTitle>
                     <DialogContent component='form' > 
                     {/* add onsubmit here */}
@@ -120,20 +170,20 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
                     />
                     </DialogContent>
                     <DialogActions>
-                        <Button color='tertiary' type='submit' onClick={() => setStatus('otp')}>
+                        <Button color='tertiary' type='submit'>
                             Send OTP
                         </Button>
                         <Button color='tertiary' onClick={() => setOpen(false)}>Cancel</Button>
                     </DialogActions>
-                </>
+                </Box>
             }
             {status === 'otp' &&
-                <>
+                <Box component='form' onSubmit={checkOtp}>
                     <DialogTitle>Enter OTP</DialogTitle>
                     <DialogContent component='form' > 
                     {/* add onsubmit here */}
                     <TextField
-                        value={forgotPass.phoneNumber}
+                        value={forgotPass.otp}
                         onChange={changeForgotPass}
                         color='tertiary'
                         autoFocus
@@ -144,18 +194,20 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
                             width: '25rem'
                         }}
                         variant="standard"
+                        error={!validOtp}
+                        helperText={!validOtp ? 'Invalid OTP' : ' '}
                     />
                     </DialogContent>
                     <DialogActions>
-                        <Button color='tertiary' type='submit' onClick={() => setStatus('change')}>
+                        <Button color='tertiary' type='submit'>
                             Submit
                         </Button>
                         <Button color='tertiary' onClick={() => setOpen(false)}>Cancel</Button>
                     </DialogActions>
-                </>
+                </Box>
             }
             {status === 'change' &&
-                <>
+                <Box component='form' onSubmit={submitPass}>
                     <DialogTitle>Change Password</DialogTitle>
                     <DialogContent component='form' > 
                     {/* add onsubmit here */}
@@ -166,6 +218,7 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
                         autoFocus
                         margin="dense"
                         name="password"
+                        type='password'
                         label="New Password"
                         sx={{
                             width: '25rem'
@@ -179,6 +232,7 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
                         autoFocus
                         margin="dense"
                         name="confirmPassword"
+                        type='password'
                         label="Confirm Password"
                         sx={{
                             width: '25rem'
@@ -187,12 +241,12 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
                     />
                     </DialogContent>
                     <DialogActions>
-                        <Button color='tertiary' type='submit' onClick={() => setStatus('signIn')}>
+                        <Button color='tertiary' type='submit'>
                             Submit
                         </Button>
                         <Button color='tertiary' onClick={() => setOpen(false)}>Cancel</Button>
                     </DialogActions>
-                </>
+                </Box>
             }
         </Dialog>
     );
