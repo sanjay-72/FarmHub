@@ -129,9 +129,53 @@ export default function Profile({
             })
     }
 
-    // const oldPass = useRef(null);
-    // const newPass = useRef(null);
-    // const newPassConfirm = useRef(null);
+    const passFields = ['oldPass', 'newPass', 'confirmNewPass'];
+
+    const [updatePass, setUpdatePass] = useState({
+        oldPass: '',
+        newPass: '',
+        confirmNewPass: '',
+    });
+
+    const [passErrors, setPassErrors] = useState({
+        oldPass: '',
+        newPass: '',
+        confirmNewPass: '',
+    });
+
+    const changePassValues = (e) => {
+        setStatus('typing');
+        setUpdatePass(() => ({
+            ...updatePass,
+            [e.target.name]: e.target.value,
+        }));
+        setPassErrors(() => ({
+            ...passErrors,
+            [e.target.name]: e.target.value === '' ? 'Required' : ''
+        }));
+    };
+
+    const validatePass = (e) => {
+        let newPassErrors = { ...passErrors };
+
+        if (e.target.name === 'oldPass') {
+            if (updatePass.oldPass.length < 6)
+                newPassErrors.oldPass = 'Password must contain at least 6 characters';
+        }
+
+        else if (e.target.name === 'newPass') {
+            if (updatePass.newPass.length < 6)
+                newPassErrors.newPass = 'Password must contain at least 6 characters';
+            if (updatePass.confirmNewPass !== '' && updatePass.newPass !== updatePass.confirmNewPass)
+                newPassErrors.confirmNewPass = 'Passwords do not match';
+        }
+        else if (e.target.name === 'confirmNewPass') {
+            if (updatePass.newPass !== updatePass.confirmNewPass)
+                newPassErrors.confirmNewPass = 'Passwords do not match';
+        }
+
+        if (newPassErrors !== passErrors) setPassErrors(newPassErrors);
+    }
 
     return (
         <>
@@ -212,27 +256,22 @@ export default function Profile({
                             </>
                             :
                             <>
-                                {/* <Grid item xs={6}>
-                                    <TextField
-                                        label="Old Password"
-                                        fullWidth
-                                        inputRef={oldPass}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        label="New Password"
-                                        fullWidth
-                                        inputRef={newPass}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        label="Confirm New Password"
-                                        fullWidth
-                                        inputRef={newPassConfirm}
-                                    />
-                                </Grid> */}
+                                {passFields.map((field) => (
+                                    <Grid item xs={12} sm={6} key={field}>
+                                        <TextField
+                                            color="tertiary"
+                                            label={startCase(field)}
+                                            fullWidth
+                                            name={field}
+                                            value={updatePass[field]}
+                                            onChange={changePassValues}
+                                            onBlur={validatePass}
+                                            required
+                                            error={passErrors[field] !== ''}
+                                            helperText={passErrors[field] ? passErrors[field] : ' '}
+                                        />
+                                    </Grid>
+                                ))}
                             </>
                         }
                     </Grid>
@@ -252,7 +291,7 @@ export default function Profile({
                                 ? <CircularProgress sx={{ ml: 3 }} color='tertiary' size='2rem' />
                                 : null
                             }
-                            {/* <Button
+                            <Button
                                 sx={{ ml: 2 }}
                                 variant="outlined"
                                 color='tertiary'
@@ -260,7 +299,7 @@ export default function Profile({
                                 onClick={() => setProfSec(false)}
                             >
                                 Change Password
-                            </Button> */}
+                            </Button>
                         </>
                         :
                         <Button variant='outlined' type='button' color='tertiary'>Update Password</Button>
