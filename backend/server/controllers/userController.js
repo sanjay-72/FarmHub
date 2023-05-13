@@ -77,17 +77,26 @@ export const updateUser = async (req, res) => {
     }
 };
 
-export const updateUserPassword = async (req, res) => {
+export const changePassword = async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId);
-        const isMatch = await user.comparePassword(req.body.oldPassword);
-        if (!isMatch) return res.json({ message: 'Old password is incorrect' });
         const updatedUser = await User.findByIdAndUpdate(
             req.params.userId,
             { password: req.body.password },
             { new: true, runValidators: true }
         );
         res.json(updatedUser);
+    } catch (err) {
+        res.send(err);
+    }
+}
+
+export const resetPassword = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        const isMatch = await user.comparePassword(req.body.oldPassword);
+        if (!isMatch) return res.json({ message: 'Old password is incorrect' });
+        changePassword(req, res)
+
     } catch (err) {
         res.send(err);
     }
@@ -235,12 +244,7 @@ export const deletefromCart = async (req, res) => {
 
 
 
-const otpCheck = async (req, res, user) => {
-    if(req.body.OTP !== user.resetPasswordOtp){
-        return res.json({message: 'Invalid OTP'})
-    }
-    
-}
+
 
 
 // Forget password
@@ -250,41 +254,28 @@ export const forgotPassword = async (req, res) => {
     const user = await User.findOne({ phoneNumber: req.body.phoneNumber });
     const phoneNumber = req.body.phoneNumber;
     const client = twilio(accountSid, authToken);
-    const OTP = user.getResetPasswordOtp() 
-
-    // var options = {
-    //     authorization: process.env.API_KEY,
-    //     message: ` ${otp} This is your OTP for Farmhub password reset`,
-    //     numbers: ['8303045383']
-    // }
-
+    const OTP = user.getResetPasswordOtp()
 
     if (!user) {
         res.json({ message: 'user not found' });
         return;
     }
 
-    // fast2sms.sendMessage(options)
-    //     .then((response) => {
-    //         console.log(response)
-    //         res.json({ message: 'message sent successfully', response: response });
-    //     })
-    //     .catch((error) => {
-    //         res.send(error)
-    //     })
-    
     try {
-        
+
         console.log(OTP);
         client.messages
             .create({
                 body: ` ${OTP} This is your OTP for Farmhub password reset`,
                 from: '+12708136198',
-                to: '+91 83030 45383',
+                to: phoneNumber,
             })
             .then((message) => {
                 console.log(message)
-                otpCheck(req,res, user)
+                if (req.body.OTP !== user.resetPasswordOtp) {
+                    return res.json({ message: 'Invalid OTP' })
+                }
+                changePassword()
             })
     } catch (error) {
         res.send(error)

@@ -144,6 +144,9 @@ export default function App() {
                 })
                 .then((data) => {
                     this.displayWeather(data)
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
         },
         displayWeather: function (data) {
@@ -175,6 +178,20 @@ export default function App() {
 
     }, [])
 
+    //-------------------------------- Translate --------------------------------
+
+    const [marginTop, setMarginTop] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (document.documentElement.classList.contains('translated-ltr')) {
+                setMarginTop('2.5rem');
+            } else {
+                setMarginTop(0);
+            }
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <ThemeProvider theme={theme}>
@@ -182,6 +199,7 @@ export default function App() {
                 <Route path='/' element={
                     <>
                         <Navbar
+                            marginTop={marginTop}
                             setTrigger={setTrigger}
                             user={user}
                             loginDialog={loginDialog}
