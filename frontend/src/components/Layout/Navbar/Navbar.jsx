@@ -63,7 +63,7 @@ function NavBar({
     removeFromCart,
     setUserTab,
     weatherDetails,
-    setWeatherDetails,
+    marginTop,    
 }) {
 
     const [serviceCollapse, setServiceCollapse] = useState(false);
@@ -114,7 +114,10 @@ function NavBar({
     const [cartDrawer, setCartDrawer] = useState(false);
 
     return (
-        <AppBar position="fixed">
+        <AppBar position="fixed" 
+            sx={{
+                mt: marginTop
+            }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* -------------------------------- Mobile View -------------------------------- */}

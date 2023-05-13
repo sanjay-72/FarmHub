@@ -15,12 +15,11 @@ import {
     updateAddress,
     updateInCart,
     updateUser,
-    updateUserPassword,
     userList
 } from '../controllers/userController';
 const userRoutes = (app) => {
-    var upload = multer({ 
-        storage: multer.memoryStorage(), 
+    var upload = multer({
+        storage: multer.memoryStorage(),
         limits: {
             fileSize: 1024 * 1024 * 5
         }
@@ -45,7 +44,9 @@ const userRoutes = (app) => {
     app.route('/user/:userId')
         .put(upload.single('avatar'), updateUser);
     app.route('/user/:userId/password')
-        .put(updateUserPassword);
+        .put(resetPassword);
+    app.route("/password/forgot")
+        .post(forgotPassword);
     app.route('/users')
         .get(userList);
 
@@ -65,11 +66,8 @@ const userRoutes = (app) => {
         .put(updateInCart)
         .delete(deletefromCart);
 
-    //-------------------------------- Password --------------------------------
-    app.route("/password/forgot")
-        .post(forgotPassword);
-    // app.route("/password/reset/:token")
-    //     .put(resetPassword);    
+
+
 }
 
 
