@@ -205,38 +205,16 @@ const Services = () => {
           </Button>
         </Grid>
 
-        <Grid item xs={6} display="none">
+        <Grid item xs={6} display="block">
           <Typography
-            paddingTop={5}
+            paddingTop={25}
             align="center"
             variant="h5"
             color="cropHeading.main"
             fontFamily="Roboto"
             fontWeight="bold"
           >
-            Calculated Information
-          </Typography>
-
-          <Typography
-            paddingTop={5}
-            align="left"
-            variant="h6"
-            color="cropHeading.main"
-            fontFamily="Roboto"
-            fontWeight="bold"
-          >
-            Seed Rate:
-          </Typography>
-
-          <Typography
-            paddingTop={5}
-            align="left"
-            variant="h6"
-            color="cropHeading.main"
-            fontFamily="Roboto"
-            fontWeight="bold"
-          >
-            Manures:
+            UNDER DEVLOPMENT1⚠️
           </Typography>
         </Grid>
       </Grid>
