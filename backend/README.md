@@ -17,5 +17,3 @@ Runs the app in the development mode for backend
 
 Builds the app for production to the `build` folder.\
 It transpiles javascipt code of server files using babel.
-
-**Feel free to connect to project maintainers if you face some issue**

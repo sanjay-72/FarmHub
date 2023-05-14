@@ -42,7 +42,7 @@ git checkout -b <YOUR_BRANCH_NAME>
 git remote add <remote_name> <repo_url>
 ```
 
-- **To running the backend and frontend check readme of each**
+- **For running the backend and frontend check readme of each**
 
 ## *GIVE IT A TRY*
 
@@ -57,9 +57,9 @@ git remote add <remote_name> <repo_url>
 ## Complete `Dose Calculater`
 <br>
 
+**Feel free to connect to project maintainers if you face some issue**
 
-
-
+<br>
 # Maintainers
 * Arshad Khan [@marshadkhn](https://github.com/marshadkhn/)
 * Aditya Kumar Mishra [@Aditya](https://github.com/Adityamishra9719/)
