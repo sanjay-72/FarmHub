@@ -10,7 +10,7 @@
 
 <br>
 
-# How to run the website
+# How to setup the project
 1. Install git on your system and have a account on github
 2. Create a git repository on desired location and initialize by `git init` 
 3. Fork the [repository](https://github.com/Abdul-365/FarmHub.git).
@@ -41,10 +41,16 @@ git checkout -b <YOUR_BRANCH_NAME>
 ```
 git remote add <remote_name> <repo_url>
 ```
+
+- **To running the backend and frontend check readme of each**
+
 ## *GIVE IT A TRY*
 
 <br>
 
+
+
+<br>
 
 
 # Work to be done
