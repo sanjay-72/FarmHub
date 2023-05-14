@@ -2,22 +2,56 @@
 ### A website for farmers to do almost everything!
 * It is a website for farmers to buy pesticides and other products releated to farming at one place and provide information about crops and products
   
-  
-# Installation
+<br>
+
+
+# Information about tech stack
 `FarmHub` is a *MERN Stack website* and a large number of dependencies to install. In future we will add the detailed instructions for installing the website.
 
-# Work Done
-In Farmhub currently we have made all the frontend including **crops details, shopping page, cart, user profile with integrated home page**
+<br>
 
-</br>
+# How to run the website
+1. Install git on your system and have a account on github
+2. Create a git repository on desired location and initialize by `git init` 
+3. Fork the [repository](https://github.com/Abdul-365/FarmHub.git).
+4. Clone your forked repository
+
+```git clone
+git clone https://github.com/<your-username>/FarmHub.git
+```
+5. Navigate to the project directory.
+
+```
+cd FarmHub
+```
+6. Install the dependencies by navigating each folder
+
+```
+npm i
+```
+
+7. Create a new branch(prefer a branch name that relates work).
+
+```
+git checkout -b <YOUR_BRANCH_NAME>
+```
+
+8. Work on default remote or just create a new branch
+
+```
+git remote add <remote_name> <repo_url>
+```
+## *GIVE IT A TRY*
+
+<br>
+
+
 
 # Work to be done
-1. Complete service section
-2. Made all the pages responsive
-3. Inmprove validation and security
-4. Improve UI 
-   
-</br>
+## Complete `Dose Calculater`
+<br>
+
+
 
 
 # Maintainers
