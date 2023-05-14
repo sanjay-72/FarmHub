@@ -1,12 +1,12 @@
 # FARMHUB🌾
 ### A website for farmers to do almost everything!
-* It is a website for farmers to buy pesticides and other products releated to farming at one place and provide information about crops and products
+* It is a website for farmers to buy pesticides and other products related to farming at one place and provide information about crops and products
   
 <br>
 
 
 # Information about tech stack
-`FarmHub` is a *MERN Stack website* and a large number of dependencies to install. In future we will add the detailed instructions for installing the website.
+`FarmHub` is a *MERN Stack website* which also uses mongoose and Material UI.
 
 <br>
 
@@ -60,6 +60,7 @@ git remote add <remote_name> <repo_url>
 **Feel free to connect to project maintainers if you face some issue**
 
 <br>
+
 # Maintainers
 * Arshad Khan [@marshadkhn](https://github.com/marshadkhn/)
 * Aditya Kumar Mishra [@Aditya](https://github.com/Adityamishra9719/)
