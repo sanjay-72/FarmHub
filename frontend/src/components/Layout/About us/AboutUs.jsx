@@ -28,8 +28,8 @@ const profiles = [
     twitter: "https://twitter.com/Abdul_365m",
   },
   {
-    name: "ANKIT KUMAR MISHRA",
-    image: "/Images/ankit. jpeg",
+    name: "ANKIT KUMAR SHARMA",
+    image: "/Images/ankit.jpeg",
     twitter: "https://twitter.com/AnkitKumar30461",
   },
 ];
