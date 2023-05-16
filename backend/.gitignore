@@ -1,2 +1,4 @@
 /node_modules
 /build
+.env
+farmhub-agro-548edd47dc96.json
