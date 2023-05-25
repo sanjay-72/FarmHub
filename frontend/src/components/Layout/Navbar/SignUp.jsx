@@ -169,7 +169,14 @@ export default function SignUp({ setTrigger, openSnackbar }) {
     }
 
     return (
-        <Container maxWidth='xl' sx={{ background: 'url(/Images/signupbg.jpg) ', py: '3rem' }}>
+        <Container 
+            maxWidth='xl' 
+            sx={{ 
+                background: 'url(/Images/signupbg.jpg)', 
+                backgroundSize: 'cover', 
+                backgroundPosition: 'center', 
+                py: '3rem'
+            }}>
             <Card sx={{ width: 500, mx: 'auto' }}>
                 <CardContent sx={{ p: 5 }} component='form' onSubmit={createUser} noValidate>
                     <Stack>
