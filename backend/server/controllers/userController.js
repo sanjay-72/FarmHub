@@ -1,14 +1,12 @@
 import passport from 'passport';
-import bucket from '../config/gcBucket';
+import path from 'path';
+import fs from 'fs';
 import Product from '../models/productModel';
 import User from '../models/userModel';
 require('dotenv').config();
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
 import twilio from "twilio";
-
-
-
 
 // -------------------------------- User Authentication --------------------------------
 
@@ -34,23 +32,28 @@ export const logout = (req, res) => {
 
 // -------------------------------- Manage and View Users --------------------------------
 
-const uploadImage = (image) => {
-    return new Promise((resolve, reject) => {
-        const blob = bucket.file(image.originalname);
-        const blobStream = blob.createWriteStream({ resumable: false });
-        blobStream
-            .on('error', err => { reject(err) })
-            .on('finish', async () => {
-                resolve(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
-            })
-            .end(image.buffer);
-    });
-};
+// const uploadImage = (image) => {
+//     return new Promise((resolve, reject) => {
+//         const blob = bucket.file(image.originalname);
+//         const blobStream = blob.createWriteStream({ resumable: false });
+//         blobStream
+//             .on('error', err => { reject(err) })
+//             .on('finish', async () => {
+//                 resolve(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
+//             })
+//             .end(image.buffer);
+//     });
+// };
 
 export const createUser = async (req, res) => {
     try {
         if (req.file) {
-            req.body.avatar = await uploadImage(req.file);
+            let avatar = {};
+            avatar.data = fs.readFileSync(
+                path.join(__dirname, '..', '..', 'uploads', String(req.file.filename))
+            );
+            avatar.contentType = req.file.mimetype;
+            req.body.avatar = avatar;
         }
         let newUser = new User(req.body)
         const user = await newUser.save();
@@ -63,7 +66,12 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         if (req.file) {
-            req.body.avatar = await uploadImage(req.file);
+            let avatar = {};
+            avatar.data = fs.readFileSync(
+                path.join(__dirname, '..', '..', 'uploads', String(req.file.filename))
+            );
+            avatar.contentType = req.file.mimetype;
+            req.body.avatar = avatar;
         }
         const user = await User.findByIdAndUpdate(
             req.params.userId,
@@ -241,11 +249,6 @@ export const deletefromCart = async (req, res) => {
         res.send(err);
     }
 }
-
-
-
-
-
 
 // Forget password
 

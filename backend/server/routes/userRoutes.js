@@ -19,13 +19,9 @@ import {
     updateUser,
     userList
 } from '../controllers/userController';
+
 const userRoutes = (app) => {
-    var upload = multer({
-        storage: multer.memoryStorage(),
-        limits: {
-            fileSize: 1024 * 1024 * 5
-        }
-    });
+    var upload = multer({ dest: './uploads/'});
 
     //-------------------------------- User Authentication --------------------------------
 

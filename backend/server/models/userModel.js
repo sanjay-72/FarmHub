@@ -8,7 +8,10 @@ const userSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, validate: validator.isEmail },
     password: { type: String, required: true, minLength: 6 },
-    avatar: { type: String },
+    avatar: {
+        data: { type: Buffer, required: true },
+        contentType: { type: String, required: true }
+    },
     role: { type: String, enum: ['admin', 'customer'], default: "customer" },
     phoneNumber: { 
         type: String, 
@@ -88,7 +91,6 @@ userSchema.pre('findOneAndUpdate', async function (next) {
 userSchema.methods.comparePassword = async function comparePassword(candidate) {
     return bcrypt.compare(candidate, this.password);
 };
-
 
 // Generating Password Reset Token
 userSchema.methods.getResetPasswordOtp = function () {
