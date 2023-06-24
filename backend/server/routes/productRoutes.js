@@ -14,12 +14,7 @@ import {
 import multer from 'multer';
 
 const productRoutes = (app) => {
-    var upload = multer({ 
-        storage: multer.memoryStorage(), 
-        limits: {
-            fileSize: 1024 * 1024 * 5
-        }
-    });
+    var upload = multer({ dest: './uploads/'});
 
     app.route('/product')
         .post(upload.array("images"), addProduct);

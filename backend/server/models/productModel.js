@@ -10,7 +10,8 @@ const reviewSchema = new Schema({
 });
 
 const imageSchema = new Schema({
-    data: { type: String, required: true }
+    data: { type: Buffer, required: true },
+    contentType: { type: String, required: true }
 });
 
 const productSchema = new Schema({

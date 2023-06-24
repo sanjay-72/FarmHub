@@ -1,29 +1,26 @@
-import bucket from '../config/gcBucket';
 import Product from '../models/productModel';
+import path from 'path';
+import fs from 'fs';
 
 // -------------------------------- Manage and view products --------------------------------
 
-const uploadImages = async (images) => {
-    const uploadPromises = images.map(image => {
-        return new Promise((resolve, reject) => {
-            const blob = bucket.file(image.originalname);
-            const blobStream = blob.createWriteStream({ resumable: false });
-            blobStream
-                .on('error', err => reject(err))
-                .on('finish', async () => {
-                    resolve({ data: `https://storage.googleapis.com/${bucket.name}/${blob.name}` });
-                })
-                .end(image.buffer);
-        });
-    });
-    return Promise.all(uploadPromises);
+const readImage = (files) => {
+    let images = [];
+    files.forEach(file => {
+        let image = {};
+        image.data = fs.readFileSync(
+            path.join(__dirname, '..', '..', 'uploads', String(file.filename))
+        );
+        image.contentType = file.mimetype;
+        images.push(image);
+    })
+    return images;
 };
 
 export const addProduct = async (req, res) => {
     try {
-        if (req.files.length) {
-            req.body.images = await uploadImages(req.files);
-        }
+        if (req.files.length)
+            req.body.images = readImage(req.files);
         let newProduct = new Product(req.body);
         const product = await newProduct.save();
         res.json(product);
@@ -34,9 +31,8 @@ export const addProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        if (req.files.length) {
-            req.body.images = await uploadImages(req.files);
-        }
+        if (req.files.length)
+            req.body.images = readImage(req.files);
         const product = await Product.findByIdAndUpdate(
             req.params.productId,
             req.body,

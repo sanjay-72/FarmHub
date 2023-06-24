@@ -32,29 +32,19 @@ export const logout = (req, res) => {
 
 // -------------------------------- Manage and View Users --------------------------------
 
-// const uploadImage = (image) => {
-//     return new Promise((resolve, reject) => {
-//         const blob = bucket.file(image.originalname);
-//         const blobStream = blob.createWriteStream({ resumable: false });
-//         blobStream
-//             .on('error', err => { reject(err) })
-//             .on('finish', async () => {
-//                 resolve(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
-//             })
-//             .end(image.buffer);
-//     });
-// };
+const readImage = (file) => {
+    let avatar = {};
+    avatar.data = fs.readFileSync(
+        path.join(__dirname, '..', '..', 'uploads', String(file.filename))
+    );
+    avatar.contentType = file.mimetype;
+    return avatar;
+};
 
 export const createUser = async (req, res) => {
     try {
-        if (req.file) {
-            let avatar = {};
-            avatar.data = fs.readFileSync(
-                path.join(__dirname, '..', '..', 'uploads', String(req.file.filename))
-            );
-            avatar.contentType = req.file.mimetype;
-            req.body.avatar = avatar;
-        }
+        if (req.file) 
+            req.body.avatar = readImage(req.file);
         let newUser = new User(req.body)
         const user = await newUser.save();
         res.json(user);
@@ -65,14 +55,8 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
-        if (req.file) {
-            let avatar = {};
-            avatar.data = fs.readFileSync(
-                path.join(__dirname, '..', '..', 'uploads', String(req.file.filename))
-            );
-            avatar.contentType = req.file.mimetype;
-            req.body.avatar = avatar;
-        }
+        if (req.file) 
+            req.body.avatar = readImage(req.file);
         const user = await User.findByIdAndUpdate(
             req.params.userId,
             req.body,
