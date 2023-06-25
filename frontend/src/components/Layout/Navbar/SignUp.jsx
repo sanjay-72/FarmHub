@@ -141,7 +141,6 @@ export default function SignUp({ setTrigger, openSnackbar }) {
             .then((response) => {
                 if (response.data.errors) {
                     openSnackbar('Account could not be created', 'error');
-                    console.log(response.data);
                     return;
                 }
                 openSnackbar('Account created successfully', 'success');

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import axios from 'axios';
+import bufferToString from '../../bufferToString';
 import Filters from './Filters'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -30,14 +31,24 @@ export default function ProductList({ updateTrigger }) {
         category ?
             axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/category/${category}/${sort}`)
                 .then((response) => {
-                    setProducts(response.data.products);
-                    setBrands(response.data.brands);
+                    let res = response.data;
+                    res.products.forEach(product => {
+                        product.images.forEach(image => {
+                            image.data = bufferToString(image);
+                        });
+                    });
+                    setProducts(res.products);
+                    setBrands(res.brands);
                 })
                 .catch((err) => console.log(err))
             :
             axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/search/${search}/${sort}`)
                 .then((response) => {
-                    console.log(response.data);
+                    response.data.forEach(product => {
+                        product.images.forEach(image => {
+                            image.data = bufferToString(image);
+                        });
+                    });
                     setProducts(response.data);
                     setBrands(null);
                 })

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import bufferToString from '../../bufferToString';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Grid from '@mui/material/Grid';
@@ -74,22 +75,34 @@ export default function Product({
         setValue(newValue);
     };
 
+    const [currentUserReview, setCurrentUserReview] = useState(false);
     const [rating, setRating] = useState(0);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/product/${id}`, { withCredentials: true })
             .then((response) => {
                 if(!response.data.errors) {
-                    setProduct(response.data)
+                    let res = response.data;
+                    res.images.forEach(image => {
+                        image.data = bufferToString(image);
+                    });
+                    res.reviews.forEach(review => {
+                        if(review.user.avatar)
+                            review.user.avatar.data = bufferToString(review.user.avatar);
+                    });
+                    // console.log(res);
+                    setProduct(res)
                     if (prevId !== id)
-                        setImage(response.data.images[0]);
+                        setImage(res.images[0]);
                     setPrevId(id);
-                    if (response.data.currentUserReview)
-                        setRating(response.data.currentUserReview.rating);
+                    if (res.reviews.length && user && res.reviews[0].user._id == user._id) {
+                        setCurrentUserReview(true);
+                        setRating(res.reviews[0].rating);
+                    }
                 }
             })
             .catch((err) => console.log(err));
-    }, [id, prevId, updateTrigger])
+    }, [id, prevId, updateTrigger, user])
 
     async function addToCart(productId) {
         const itemDetails = {
@@ -129,7 +142,11 @@ export default function Product({
             description: reviewDescription.current.value,
         };
 
-        axios.put(`${process.env.REACT_APP_BACKEND_URL}/product/${id}/review/${user._id}`, reviewDetails, { withCredentials: true })
+        axios.put(
+            `${process.env.REACT_APP_BACKEND_URL}/product/${id}/review/${user._id}`,
+            reviewDetails,
+            { withCredentials: true }
+        )
             .then(() => { setTrigger(prevValue => !prevValue); setReviewForm(false); })
             .catch((error) => console.log(error));
     }
@@ -222,7 +239,7 @@ export default function Product({
                                 </Typography>
                                 <Rating sx={{ mr: 1 }} value={product.avgRating} precision={0.1} readOnly size='small' />
                                 <Typography>
-                                    ({product.currentUserReview ? product.reviews.length + 1 : product.reviews.length})
+                                    {product.reviews.length}
                                 </Typography>
                             </Box>
                             : <Typography mt={2}>No ratings</Typography>
@@ -297,11 +314,11 @@ export default function Product({
                                         component="form"
                                         noValidate
                                         autoComplete="off"
-                                        onSubmit={!product.currentUserReview ? submitReview : updateReview}
+                                        onSubmit={!currentUserReview ? submitReview : updateReview}
                                         mb={5}
                                     >
                                         <Typography variant="h6">
-                                            {product.currentUserReview ? 'Edit Review' : 'Write a Review for this product'}
+                                            {currentUserReview ? 'Edit Review' : 'Write a Review for this product'}
                                         </Typography>
                                         <Typography mt={2} fontWeight='500' gutterBottom>Your Rating</Typography>
                                         <Rating
@@ -319,8 +336,8 @@ export default function Product({
                                             sx={{ display: 'block' }}
                                             fullWidth
                                             margin='normal'
-                                            defaultValue={product.currentUserReview ?
-                                                product.currentUserReview.description : ''}
+                                            defaultValue={currentUserReview ?
+                                                product.reviews[0].description : ''}
                                             placeholder="Write a review here..."
                                             inputRef={reviewDescription}
                                         />
@@ -330,23 +347,26 @@ export default function Product({
                                         </Stack>
                                     </Box>
                                     :
-                                    product.currentUserReview ?
+                                    currentUserReview ?
                                         <Box mb={5}>
                                             <Typography variant='h6'>Your Review</Typography>
                                             <Box display='flex' alignItems='center' mt={3}>
-                                                <Avatar alt="user image" src={product.currentUserReview.user.avatar} />
+                                                <Avatar 
+                                                    alt="user image" 
+                                                    src={product.reviews[0].user.avatar && product.reviews[0].user.avatar.data}
+                                                />
                                                 <Box display='flex' flexDirection='column' ml={2}>
-                                                    <Typography>{product.currentUserReview.user.fullName}</Typography>
+                                                    <Typography>{product.reviews[0].user.fullName}</Typography>
                                                     <Rating
                                                         name="read-only"
-                                                        value={product.currentUserReview.rating}
+                                                        value={product.reviews[0].rating}
                                                         readOnly
                                                         size='small'
                                                     />
                                                 </Box>
                                             </Box>
                                             <Typography mt={1} gutterBottom>
-                                                {product.currentUserReview.description}
+                                                {product.reviews[0].description}
                                             </Typography>
                                             <Stack direction='row' spacing={2} mt={3}>
                                                 <Button variant='contained' onClick={() => setReviewForm(true)}>
@@ -380,10 +400,10 @@ export default function Product({
                                             Write your own review
                                         </Button>
                                 : null}
-                            {product.reviews.map(review => (
+                            {(currentUserReview ? product.reviews.slice(1) : product.reviews).map(review => (
                                 <Box mb={4} key={review.user._id}>
                                     <Box display='flex' alignItems='center'>
-                                        <Avatar alt="user image" src={review.user.avatar} />
+                                        <Avatar alt="user image" src={review.user.avatar && review.user.avatar.data} />
                                         <Box
                                             display='flex'
                                             flexDirection='column'

@@ -140,7 +140,6 @@ export default function App() {
                     return response.json();
                 })
                 .then((data) => {
-                    console.log(data);
                     this.displayWeather(data)
                 })
                 .catch((err) => {
@@ -169,7 +168,6 @@ export default function App() {
     useEffect(() => {
         axios.get("https://ipapi.co/json")
             .then((response) => {
-                console.log(response.data)
                 setPlace(response.data.city)
                 weather.fetchWeather(response.data.city);
             })
@@ -240,7 +238,7 @@ export default function App() {
                             openSnackbar={openSnackbar}
                         />}
                     />
-                    <Route path='order/:orderId' element={<Order user={user} />} />
+                    <Route path='order/:orderId' element={<Order />} />
                     <Route path='checkOut' element={<CheckOutSteps user={user} setTrigger={setTrigger} setUserTab={setUserTab} />} />
                     <Route path='orderSuccess' element={<OrderSuccess setUserTab={setUserTab}/>}S/>
                     <Route path='/shop'>
