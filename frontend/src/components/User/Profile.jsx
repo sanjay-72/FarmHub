@@ -29,7 +29,7 @@ export default function Profile({
 
     const [userValues, setUserValues] = useState({
         avatar: null,
-        avatarSrc: user.avatar.data,
+        avatarSrc: user.avatar ? user.avatar.data : null,
         name: user.name,
         email: user.email,
         phoneNumber: user.phoneNumber,
