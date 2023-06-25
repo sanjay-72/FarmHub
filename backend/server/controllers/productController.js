@@ -55,15 +55,15 @@ export const deleteProduct = async (req, res) => {
 
 export const displayProduct = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.productId).populate('reviews.user');
-        let avgRating = product.avgRating;
-        const productObj = product.toObject();
+        let product = await Product.findById(req.params.productId).populate('reviews.user');
         if (req.user) {
-            productObj.currentUserReview = product.reviews.find(review => review.user._id.equals(req.user._id));
-            productObj.reviews = product.reviews.filter(review => !review.user._id.equals(req.user._id));
+            product.reviews.sort((a, b) => {
+                if (a.user._id.equals(req.user._id)) return -1;
+                if (b.user._id.equals(req.user._id)) return 1;
+                return 0;
+            });
         }
-        productObj.avgRating = avgRating;
-        res.json(productObj);
+        res.json(product);
     } catch (err) {
         res.send(err);
     }
@@ -119,7 +119,7 @@ export const getTopProducts = async (req, res) => {
     } catch (err) {
         res.send(err);
     }
-  };
+};
 
 // -------------------------------- Reviews --------------------------------
 
