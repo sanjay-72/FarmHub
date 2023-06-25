@@ -28,6 +28,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import OrderSuccess from './components/Cart/OrderSuccess';
 import Weather from './components/Services/weather';
+import bufferToString from './bufferToString';
 
 const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -66,7 +67,10 @@ export default function App() {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, { withCredentials: true })
             .then((response) => {
-                if (response) setUser(response.data)
+                let res = response.data
+                if (res.avatar) 
+                    res.avatar.data = bufferToString(res.avatar);
+                if (response) setUser(res)
                 else setUser(null);
             })
             .catch((err) => console.log(err));
@@ -84,7 +88,6 @@ export default function App() {
             { quantity: quantity },
             { withCredentials: true })
             .then((response) => {
-                console.log(response);
                 if (response) setTrigger(prevValue => !prevValue)
             })
             .catch((error) => console.log(error));

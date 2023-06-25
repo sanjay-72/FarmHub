@@ -28,8 +28,8 @@ export default function Profile({
     const userFields = ['name', 'email', 'phoneNumber'];
 
     const [userValues, setUserValues] = useState({
-        avatar: user.avatar,
-        avatarSrc: user.avatar,
+        avatar: null,
+        avatarSrc: user.avatar.data,
         name: user.name,
         email: user.email,
         phoneNumber: user.phoneNumber,
@@ -89,7 +89,7 @@ export default function Profile({
         setStatus('submitting');
 
         const formData = new FormData();
-        formData.append('avatar', userValues.avatar);
+        if (userValues.avatar) formData.append('avatar', userValues.avatar);
         formData.append('name', userValues.name);
         formData.append('email', userValues.email);
         formData.append('phoneNumber', userValues.phoneNumber);
@@ -114,10 +114,6 @@ export default function Profile({
                     setStatus('typing');
                     return;
                 }
-                setUserValues((prevValues) => ({
-                    ...prevValues,
-                    avatarSrc: response.data.avatar,
-                }));
                 setTrigger(prevValue => !prevValue);
                 openSnackbar('Changes saved successfully', 'success');
                 setStatus('success');

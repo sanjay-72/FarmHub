@@ -95,7 +95,7 @@ export default function Product({
                     if (prevId !== id)
                         setImage(res.images[0]);
                     setPrevId(id);
-                    if (res.reviews.length && user && res.reviews[0].user._id == user._id) {
+                    if (res.reviews.length && user && res.reviews[0].user._id === user._id) {
                         setCurrentUserReview(true);
                         setRating(res.reviews[0].rating);
                     }
