@@ -318,9 +318,8 @@ export default function Profile({
                             >
                                 Save Changes
                             </Button>
-                            {status === 'submitting'
-                                ? <CircularProgress sx={{ ml: 3 }} color='tertiary' size='2rem' />
-                                : null
+                            {status === 'submitting' &&
+                                <CircularProgress sx={{ ml: 3 }} color='tertiary' size='2rem' />
                             }
                             <Button
                                 sx={{ ml: 2 }}

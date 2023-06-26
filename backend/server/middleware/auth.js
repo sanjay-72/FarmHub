@@ -6,11 +6,11 @@ passport.use(new LocalStrategy({ usernameField: 'phoneNumber' }, async (username
     try {
         const user = await User.findOne({ phoneNumber: username }).exec();
         if (!user) {
-            return done(null, false, { message: 'Invalid phoneNumber' });
+            return done(null, false, { message: 'Invalid Phone Number' });
         }
         const passwordOK = await user.comparePassword(password);
         if (!passwordOK) {
-            return done(null, false, { message: 'Invalid password' });
+            return done(null, false, { message: 'Invalid Password' });
         }
         return done(null, user);
     } catch (err) {

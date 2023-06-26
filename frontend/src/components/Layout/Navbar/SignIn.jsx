@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,7 +12,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-export default function FormDialog({ open, setOpen, status, setStatus, setTrigger }) {
+export default function SignIn({ open, setOpen, status, setStatus, setTrigger }) {
 
     const [loginInfo, setLoginInfo] = useState({
         phoneNumber: "",
@@ -19,11 +20,17 @@ export default function FormDialog({ open, setOpen, status, setStatus, setTrigge
     });
 
     const handleChange = (event) => {
+        setSignInStatus('typing');
         setLoginInfo({ ...loginInfo, [event.target.name]: event.target.value });
     };
 
+    // -------------------------------- Login User -------------------------------- 
+
+    const [signInStatus, setSignInStatus] = useState('typing');
+
     async function submitUser(e) {
         e.preventDefault();
+        setSignInStatus('authenticating');
 
         const loginDetails = {
             phoneNumber: loginInfo.phoneNumber,
@@ -32,11 +39,18 @@ export default function FormDialog({ open, setOpen, status, setStatus, setTrigge
 
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/login`, loginDetails, { withCredentials: true })
             .then(() => {
+                setSignInStatus('typing');
                 setTrigger(prevValue => !prevValue);
                 setOpen(false);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                const res = error.response.data;
+                if(res === 'Invalid Phone Number') setSignInStatus('Invalid Phone Number');
+                if(res === 'Invalid Password') setSignInStatus('Invalid Password');
+            });
     }
+
+    // -------------------------------- Forgot Password -------------------------------- 
 
     const [forgotPass, setForgotPass] = useState({
         phoneNumber: "",
@@ -84,6 +98,8 @@ export default function FormDialog({ open, setOpen, status, setStatus, setTrigge
             .catch((error) => console.log(error));
     }
 
+    // -------------------------------- Change Password -------------------------------- 
+
     async function submitPass(e) {
         e.preventDefault();
 
@@ -98,6 +114,8 @@ export default function FormDialog({ open, setOpen, status, setStatus, setTrigge
             })
             .catch((error) => console.log(error));
     }
+
+    // ---------------------------------------------------------------- 
 
     return (
         <Dialog open={open} onClose={() => setOpen(false)} disableScrollLock={true}>
@@ -115,6 +133,8 @@ export default function FormDialog({ open, setOpen, status, setStatus, setTrigge
                             label="Phone No."
                             fullWidth
                             variant="standard"
+                            error={signInStatus === 'Invalid Phone Number'}
+                            helperText={signInStatus === 'Invalid Phone Number' && 'Invalid Phone Number'}
                         />
                         <TextField
                             value={loginInfo.password}
@@ -127,6 +147,8 @@ export default function FormDialog({ open, setOpen, status, setStatus, setTrigge
                             type='password'
                             fullWidth
                             variant="standard"
+                            error={signInStatus === 'Invalid Password'}
+                            helperText={signInStatus === 'Invalid Password' && 'Invalid Password'}
                         />
                     <Link variant="subtitle2" color="tertiary.main" onClick={() => setStatus('forgot')}>
                         Forgot Password?
@@ -139,6 +161,9 @@ export default function FormDialog({ open, setOpen, status, setStatus, setTrigge
                         </Typography>
                     </DialogContent>
                     <DialogActions>
+                        {signInStatus === 'authenticating' &&
+                            <CircularProgress sx={{ ml: 3 }} color='tertiary' size='2rem' />
+                        }
                         <Button color='tertiary' type='submit'>
                             Sign In
                         </Button>
