@@ -11,6 +11,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { Container } from '@mui/material';
 import axios from 'axios';
+import bufferToString from './../../bufferToString';
 
 const banner = [
     'Images/ad1.jpg',
@@ -24,7 +25,13 @@ export default function ShopHome() {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/top`)
             .then((response) => {
-                setTopProducts(response.data);
+                let res = response.data;
+                res.forEach(product => {
+                    product.images.forEach((image) => {
+                        image.data = bufferToString(image);
+                    })
+                })
+                setTopProducts(res);
             })
             .catch((err) => console.log(err))
     }, [])
