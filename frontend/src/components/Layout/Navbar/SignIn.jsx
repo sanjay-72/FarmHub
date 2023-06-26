@@ -12,7 +12,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-export default function SignIn({ open, setOpen, status, setStatus, setTrigger }) {
+export default function SignIn({ open, setOpen, status, setStatus, signInStatus, setSignInStatus, setTrigger }) {
 
     const [loginInfo, setLoginInfo] = useState({
         phoneNumber: "",
@@ -25,8 +25,6 @@ export default function SignIn({ open, setOpen, status, setStatus, setTrigger })
     };
 
     // -------------------------------- Login User -------------------------------- 
-
-    const [signInStatus, setSignInStatus] = useState('typing');
 
     async function submitUser(e) {
         e.preventDefault();

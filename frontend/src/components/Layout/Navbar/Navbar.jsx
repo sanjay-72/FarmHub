@@ -112,6 +112,7 @@ function NavBar({
     // --------------------------------- Sign-in and Sign-out ---------------------------------
 
     const [status, setStatus] = useState('signIn');
+    const [signInStatus, setSignInStatus] = useState('typing');
 
     function signOut() {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/logout`, { withCredentials: true })
@@ -194,7 +195,13 @@ function NavBar({
                             </Collapse>
 
                             {!user &&
-                                <MenuItem onClick={() => { handleCloseNavMenu(); setLoginDialog(true); setStatus('signIn') }}>
+                                <MenuItem 
+                                    onClick={() => {
+                                        handleCloseNavMenu();
+                                        setLoginDialog(true);
+                                        setStatus('signIn');
+                                        setSignInStatus('typing');
+                                    }}>
                                     <Typography textAlign="center">Sign In</Typography>
                                 </MenuItem>
                             }
@@ -300,7 +307,12 @@ function NavBar({
                         </Menu>
 
                         {!user &&
-                            <NavButton onClick={() => { setLoginDialog(true); setStatus('signIn'); }}>
+                            <NavButton 
+                                onClick={() => { 
+                                    setLoginDialog(true); 
+                                    setStatus('signIn'); 
+                                    setSignInStatus('typing');
+                                }}>
                                 Sign In
                             </NavButton>
                         }
@@ -394,6 +406,8 @@ function NavBar({
                 setOpen={setLoginDialog} 
                 status={status} 
                 setStatus={setStatus} 
+                signInStatus={signInStatus} 
+                setSignInStatus={setSignInStatus} 
                 setTrigger={setTrigger}
             />
         </AppBar>
