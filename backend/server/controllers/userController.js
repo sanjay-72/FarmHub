@@ -16,9 +16,15 @@ export const currentUserDetails = (req, res) => {
 }
 
 export const login = (req, res, next) => {
-    passport.authenticate('local', function (err, account) {
-        req.logIn(account, function () {
-            res.status(err ? 500 : 200).send(err ? err : account);
+    passport.authenticate('local', function (err, user, info) {
+        if (err)
+            return res.status(500).send(err);
+        if (!user)
+            return res.status(401).send(info.message);
+        req.logIn(user, function (err) {
+            if (err)
+                return res.status(500).send(err);
+            return res.status(200).send(user);
         });
     })(req, res, next);
 }
