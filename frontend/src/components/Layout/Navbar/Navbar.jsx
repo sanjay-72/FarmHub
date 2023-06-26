@@ -63,11 +63,10 @@ function NavBar({
     removeFromCart,
     setUserTab,
     weatherDetails,
-    marginTop,    
+    marginTop,
 }) {
 
-    const [serviceCollapse, setServiceCollapse] = useState(false);
-    const [categoriesCollapse, setCategoriesCollapse] = useState(false);
+    // --------------------------------- Dropdowns (Desktop View) ---------------------------------
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const handleOpenNavMenu = (event) => {
@@ -105,16 +104,27 @@ function NavBar({
         setAnchorEl(null);
     };
 
+    // ------------------------------- Collapses (Mobile view) --------------------------------
+
+    const [serviceCollapse, setServiceCollapse] = useState(false);
+    const [categoriesCollapse, setCategoriesCollapse] = useState(false);
+
+    // --------------------------------- Sign-in and Sign-out ---------------------------------
+
+    const [status, setStatus] = useState('signIn');
+
     function signOut() {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/logout`, { withCredentials: true })
             .then(() => setTrigger(prevValue => !prevValue))
             .catch((err) => console.log(err));
     }
 
+    // ----------------------------------------------------------------------------------------
+
     const [cartDrawer, setCartDrawer] = useState(false);
 
     return (
-        <AppBar position="fixed" 
+        <AppBar position="fixed"
             sx={{
                 mt: marginTop
             }}>
@@ -183,11 +193,10 @@ function NavBar({
                                 ))}
                             </Collapse>
 
-                            {!user ?
-                                <MenuItem onClick={() => { handleCloseNavMenu(); setLoginDialog(true); }}>
+                            {!user &&
+                                <MenuItem onClick={() => { handleCloseNavMenu(); setLoginDialog(true); setStatus('signIn') }}>
                                     <Typography textAlign="center">Sign In</Typography>
                                 </MenuItem>
-                                : null
                             }
                         </Menu>
                     </Box>
@@ -290,11 +299,10 @@ function NavBar({
                             ))}
                         </Menu>
 
-                        {!user ?
-                            <NavButton onClick={() => { setLoginDialog(true); }}>
+                        {!user &&
+                            <NavButton onClick={() => { setLoginDialog(true); setStatus('signIn'); }}>
                                 Sign In
                             </NavButton>
-                            : null
                         }
 
                     </Box>
@@ -309,7 +317,7 @@ function NavBar({
                         {/* <IconButton size='large'>
                             <SearchIcon color="tertiary" fontSize='inherit' />
                         </IconButton> */}
-                        {weatherDetails && 
+                        {weatherDetails &&
                             <Box display='flex' alignItems='center' justifyContent='center' sx={{ pr: { xs: 0, md: 2 } }}>
 
                                 <img src={weatherDetails.icon} alt="" style={{
@@ -325,9 +333,8 @@ function NavBar({
                                 </Box>
                             </Box>
                         }
-                        {user ?
+                        {user &&
                             <>
-
                                 <IconButton onClick={() => setCartDrawer(true)} size='large'>
                                     <Badge badgeContent={user.cartItems} color="secondary">
                                         <ShoppingCartIcon color="tertiary" fontSize='inherit' />
@@ -371,21 +378,24 @@ function NavBar({
                                     <MenuItem onClick={() => { signOut(); handleCloseUserMenu() }}>
                                         <Typography textAlign="center">Sign Out</Typography>
                                     </MenuItem>
-                                    {user.role === 'admin' ?
+                                    {user.role === 'admin' &&
                                         <MenuItem component={Link} to='/user' onClick={() => setUserTab(3)} key="Dashboard">
                                             <Typography textAlign="center">Dashboard</Typography>
                                         </MenuItem>
-                                        :
-                                        null
                                     }
                                 </Menu>
                             </>
-                            : null
                         }
                     </Box>
                 </Toolbar>
             </Container>
-            <SignIn open={loginDialog} setOpen={setLoginDialog} setTrigger={setTrigger} />
+            <SignIn 
+                open={loginDialog} 
+                setOpen={setLoginDialog} 
+                status={status} 
+                setStatus={setStatus} 
+                setTrigger={setTrigger}
+            />
         </AppBar>
     );
 }

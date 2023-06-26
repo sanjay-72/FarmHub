@@ -1,20 +1,17 @@
-import { useState } from 'react';
-import axios from 'axios'
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import axios from 'axios';
+import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box } from '@mui/material';
 
-
-export default function FormDialog({ open, setOpen, setTrigger }) {
-
-    const [status, setStatus] = useState('signIn');
+export default function FormDialog({ open, setOpen, status, setStatus, setTrigger }) {
 
     const [loginInfo, setLoginInfo] = useState({
         phoneNumber: "",
@@ -24,7 +21,6 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
     const handleChange = (event) => {
         setLoginInfo({ ...loginInfo, [event.target.name]: event.target.value });
     };
-
 
     async function submitUser(e) {
         e.preventDefault();
@@ -104,7 +100,7 @@ export default function FormDialog({ open, setOpen, setTrigger }) {
     }
 
     return (
-        <Dialog open={open} onClose={() => { setOpen(false); setStatus('signIn'); }} disableScrollLock={true}>
+        <Dialog open={open} onClose={() => setOpen(false)} disableScrollLock={true}>
             {status === 'signIn' &&
                 <Box component='form' onSubmit={submitUser}>
                     <DialogTitle>SIGN IN</DialogTitle>
