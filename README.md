@@ -62,9 +62,9 @@ git remote add <remote_name> <repo_url>
 <br>
 
 # Maintainers
-* Arshad Khan [@marshadkhn](https://github.com/marshadkhn/)
-* Aditya Kumar Mishra [@Aditya](https://github.com/Adityamishra9719/)
-* Abdul Mannan [@Abdul](https://github.com/Abdul-365/)
+* [ARSHAD](https://github.com/marshadkhn/)
+* [ADITYA](https://github.com/Adityamishra9719/)
+* [ABDUL](https://github.com/Abdul-365/)
 
 
 
