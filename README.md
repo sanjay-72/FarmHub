@@ -65,7 +65,6 @@ git remote add <remote_name> <repo_url>
 * Arshad Khan [@marshadkhn](https://github.com/marshadkhn/)
 * Aditya Kumar Mishra [@Aditya](https://github.com/Adityamishra9719/)
 * Abdul Mannan [@Abdul](https://github.com/Abdul-365/)
-* Ankit Kumar Sharma [@Ankit](https://github.com/GuryonAnkit/)
 
 
 
