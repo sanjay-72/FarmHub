@@ -1,9 +1,7 @@
-# FramHub
 
+<h1 align="center"><b>FramHub</b></h1>
 <div align="center">
-
-![Alt text](frontend/public/Images/main-logo.png)
-
+<img src="frontend/public/Images/main-logo.png"/>
 </div>
 
 <div align="center">
