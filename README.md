@@ -1,9 +1,9 @@
 
 <h1 align="center"><b>FramHub</b></h1>
-<div align="center">
+<!-- <div align="center">
 <img src="frontend/public/Images/main-logo.png"/>
 </div>
-
+ -->
 <div align="center">
  <p>
 
