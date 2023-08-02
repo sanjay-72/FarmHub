@@ -1,72 +1,92 @@
-# FARMHUB🌾
-### A website for farmers to do almost everything!
-* It is a website for farmers to buy pesticides and other products related to farming at one place and provide information about crops and products
+# FramHub
+
+<div align="center">
+
+![Alt text](frontend/public/Images/main-logo.png)
+
+</div>
+
+<div align="center">
+ <p>
+
+
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
+![GitHub forks](https://img.shields.io/github/forks/FarmHubb/FarmHub)
+![GitHub Repo stars](https://img.shields.io/github/stars/FarmHubb/FarmHub)
+![GitHub contributors](https://img.shields.io/github/contributors/FarmHubb/FarmHub)
+![GitHub last commit](https://img.shields.io/github/last-commit/FarmHubb/FarmHub)
   
-<br>
+![GitHub repo size](https://img.shields.io/github/repo-size/FarmHubb/FarmHub)
+
+![Github](https://img.shields.io/github/license/FarmHubb/FarmHub)
+![GitHub issues](https://img.shields.io/github/issues/FarmHubb/FarmHub)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/FarmHubb/FarmHub)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/FarmHubb/FarmHub)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/FarmHubb/FarmHub)
+ </p>
+</div>
+ 
+
+<h2 align= center> Tech Stacks used ✨ </h2>
+
+<p align="center">
+  <img src="https://static.javatpoint.com/blog/images/mern-stack.png" alt="JS"/>
+</p>
+
+<h2 align=center> 👨🏻‍💻 How to get started? </h2> 
+
+You can refer to the following articles on **_basics of Git and Github and also contact the Project Mentors, in case you are stuck_**:
+
+- [Forking a Repo](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)
+- [Cloning a Repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+- [How to create a Pull Request](https://opensource.com/article/19/7/create-pull-request-github)
+- [Getting started with Git and GitHub](https://towardsdatascience.com/getting-started-with-git-and-github-6fcd0f2d4ac6)
 
 
-# Information about tech stack
-`FarmHub` is a *MERN Stack website* which also uses mongoose and Material UI.
+<h2 align=center> 📝 How to Contribute? </h2>  
 
-<br>
+- Take a look at the Existing Issues or create your own Issues!
+- Wait for the Issue to be assigned to you after which you can start working on it.
+- Fork the Repo and create a Branch for any Issue that you are working upon.
+- Create a Pull Request which will be promptly reviewed and suggestions would be added to improve it.
+- Add Screenshots to help us know what this Script is all about.
 
-# How to setup the project
-1. Install git on your system and have a account on github
-2. Create a git repository on desired location and initialize by `git init` 
-3. Fork the [repository](https://github.com/Abdul-365/FarmHub.git).
-4. Clone your forked repository
-
-```git clone
-git clone https://github.com/<your-username>/FarmHub.git
-```
-5. Navigate to the project directory.
-
-```
-cd FarmHub
-```
-6. Install the dependencies by navigating each folder
-
-```
-npm i
-```
-
-7. Create a new branch(prefer a branch name that relates work).
-
-```
-git checkout -b <YOUR_BRANCH_NAME>
-```
-
-8. Work on default remote or just create a new branch
-
-```
-git remote add <remote_name> <repo_url>
-```
-
-- **For running the backend and frontend check readme of each**
-
-## *GIVE IT A TRY*
-
-<br>
+<h2>
+	<a href="https://github.com/TusharKesarwani/Front-End-Projects/blob/main/CONTRIBUTING.md">
+		Contributing Guidelines
+	</a>
+</h2>
 
 
 
-<br>
+<h2 align=center>Project Admins</h2> 
+<table align="center">
+	<tr >
+    <td align="center">
+            <a href="https://github.com/marshadkhn">
+              <img src="https://avatars.githubusercontent.com/u/80325579?v=4" width="100px" alt=""/><br />
+              <sub><b>marshadkhn</b></sub>
+            </a>
+   </td>
+    <td align="center">
+            <a href="https://github.com/Adityamishra9719">
+              <img src="https://avatars.githubusercontent.com/u/105539123?v=4" width="100px" alt=""/><br />
+              <sub><b>Adityamishra9719</b></sub>
+            </a>
+   </td>
+    <td align="center">
+            <a href="https://github.com/Abdul-365">
+              <img src="https://avatars.githubusercontent.com/u/91797653?v=4" width="100px" alt=""/><br />
+              <sub><b>Abdul-365 </b></sub>
+            </a>
+   </td>
+  </tr>
+</table>
 
 
-# Work to be done
-## Complete `Dose Calculater`
-<br>
+<hr>
 
-**Feel free to connect to project maintainers if you face some issue**
+<h1 align=center>Happy Coding 👨‍💻</h1>
 
-<br>
-
-# Maintainers
-* [ARSHAD](https://github.com/marshadkhn/)
-* [ADITYA](https://github.com/Adityamishra9719/)
-* [ABDUL](https://github.com/Abdul-365/)
-
-
-
-
-
+Show some ❤️&nbsp; by giving the star to this repo
+<p align="right"><a href="https://github.com/FarmHubb/FarmHub">Back to top</a></p>
