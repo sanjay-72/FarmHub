@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./build/index.js",
-    "devstart": "nodemon ./server/index.js --exec babel-node -e js",
+    "dev": "nodemon ./server/index.js --exec babel-node -e js",
     "build": "babel -d ./build ./server"
   },
-  "author": "Abdul, Aditya, Arshad, Ankit",
+  "author": "Abdul, Aditya, Arshad",
   "license": "ISC",
   "dependencies": {
     "async": "^3.2.4",
