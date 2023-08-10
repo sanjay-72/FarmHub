@@ -30,7 +30,12 @@
 <p align="center">
   <img src="https://static.javatpoint.com/blog/images/mern-stack.png" alt="JS"/>
 </p>
+<h2 align=center>Prerequisites for this projects</h2> 
 
+- Node.js
+- MongoDB 
+- React
+  
 <h2 align=center> 👨🏻‍💻 How to get started? </h2> 
 
 You can refer to the following articles on **_basics of Git and Github and also contact the Project Mentors, in case you are stuck_**:
