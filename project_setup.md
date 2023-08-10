@@ -1,8 +1,19 @@
+
+---
 # Setting up the front-end
 - Go to frontend
 - run `npm install or npm i`
 - run `npm start` to start the **frontend**
-
+### Things to set-up before
+- To run this project, you will need to add a .env file in frontend
+```bash 
+./frontend/.env
+ ```
+``.env data``
+```bash
+REACT_APP_BACKEND_URL = 'http://localhost:4000'
+```
+----
 # Setting up the back-end
 - Go to back-end
 - run `npm install or npm i`
@@ -15,7 +26,7 @@
 As there will be produt you can see for better understanding
 
 ### Environment Variables
-- To run this project, you will need to add the following environment variables to your config.env file in backend
+- To run this project, you will need to add a .env file in backend
 ```bash 
 ./backend/.env
  ```
