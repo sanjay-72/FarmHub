@@ -77,7 +77,7 @@ const Services = () => {
     area: "",
     unit: "",
   });
-  
+
   // const [cropinfo, setCropInfo] = useState(null);
 
   const handleChange = (e) => {
@@ -102,9 +102,9 @@ const Services = () => {
         fontFamily="Roboto"
         fontWeight="bold"
       >
-        FarmHub provide you a unique feature for calculating comman and specific
-        manures for crops, type of soil the crop need, suitable temprature for
-        crop and more details
+        FarmHub provides you an unique feature for calculating common and specific
+        manures for crops, type of soil needed for crop, suitable temprature for
+        crop and more details for better yielding.
       </Typography>
 
       <Grid container spacing={2}>
