@@ -21,7 +21,19 @@ const area = [
 const crops = [
   {
     value: "Barley",
-    label: "Barley",
+    label: "Barley"
+  },
+  {
+    value: "Brinjal",
+    label: "Brinjal"
+  },
+  {
+    value: "Carrot",
+    label: "Carrot"
+  },
+  {
+    value: "Cauliflower",
+    label: "Cauliflower"
   },
   {
     value: "Chickpea",
@@ -30,26 +42,6 @@ const crops = [
   {
     value: "Mustard",
     label: "Mustard",
-  },
-  {
-    value: "Wheat",
-    label: "Wheat",
-  },
-  {
-    value: "Rice",
-    label: "Rice",
-  },
-  {
-    value: "Brinjal",
-    label: "Brinjal",
-  },
-  {
-    value: "Carrot",
-    label: "Carrot",
-  },
-  {
-    value: "Cauliflower",
-    label: "Cauliflower",
   },
   {
     value: "Onion",
@@ -64,8 +56,16 @@ const crops = [
     label: "Radish",
   },
   {
+    value: "Rice",
+    label: "Rice",
+  },
+  {
     value: "Tomato",
     label: "Tomato",
+  },
+  {
+    value: "Wheat",
+    label: "Wheat",
   },
 ];
 
