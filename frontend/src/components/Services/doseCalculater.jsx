@@ -178,7 +178,7 @@ const Services = () => {
         fontFamily="Roboto"
         fontWeight="bold"
       >
-        FarmHub  brings to you a unique feature on this website – Dose Calculator.
+        FarmHub  brings to you a unique feature on this website – Dose Calculator. <br/>
         Now, you can calculate the exact amount of fertilisers based on fertiliser application, growth phase of crop and acreage.
       </Typography>
 
