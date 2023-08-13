@@ -111,7 +111,16 @@ const Services = () => {
     }
 
     else if (userCropInfo.cropName === "Brinjal") {
-      // answer.FYM = 15 * acreArea;
+      //Values as per standards
+      let lBound = ((10.11 - 1) * acreArea).toFixed(2);
+      let uBound = ((10.11 + 1) * acreArea).toFixed(2);
+      answer.manures = {};
+      answer.manures.FYM = `${lBound} - ${uBound} t`;
+      answer.manures.urea = `${(55 * acreArea).toFixed(2)} Kg`;
+      answer.seedRate = `160 - 200 gm/Acre`;
+      answer.seedsRequired = `${(160 * acreArea).toFixed(2)} - ${(200 * acreArea).toFixed(2)} gm`;
+      answer.manures.phosphate = `${(60 * acreArea).toFixed(2)} Kg`;
+      answer.manures.pottasium = `${(70 * acreArea).toFixed(2)} Kg`;
     }
 
     else if (userCropInfo.cropName === "Carrot") {
