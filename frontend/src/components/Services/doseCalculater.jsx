@@ -124,7 +124,16 @@ const Services = () => {
     }
 
     else if (userCropInfo.cropName === "Carrot") {
-      // answer.FYM = 15 * acreArea;
+      //Values as per standards
+      let lBound = ((10.11 - 1) * acreArea).toFixed(2);
+      let uBound = ((10.11 + 1) * acreArea).toFixed(2);
+      answer.manures = {};
+      answer.manures.FYM = `${lBound} - ${uBound} t`;
+      answer.manures.urea = `${(60 * acreArea).toFixed(2)} Kg N ha -1`;
+      answer.seedRate = `2 Kg/Acre`;
+      answer.seedsRequired = `${(2 * acreArea).toFixed(2)} Kg`;
+      answer.manures.phosphate = `${(15 * acreArea).toFixed(2)} Kg`;
+      answer.manures.pottasium = `${(15 * acreArea).toFixed(2)} Kg`;
     }
 
     else if (userCropInfo.cropName === "Cauliflower") {
