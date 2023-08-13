@@ -177,7 +177,7 @@ function NavBar({
                             </MenuItem>
                             <Collapse in={serviceCollapse} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
                                 <MenuItem component={Link} to='/weather' onClick={handleCloseNavMenu}>Weather</MenuItem>
-                                {/* <MenuItem component={Link} to='/doseCalculator' onClick={handleCloseNavMenu}>Dose Caluculator</MenuItem> */}
+                                <MenuItem component={Link} to='/doseCalculator' onClick={handleCloseNavMenu}>Dose Caluculator</MenuItem>
                             </Collapse>
 
                             <MenuItem component={Link} to='/shop' onClick={handleCloseNavMenu}>
@@ -272,7 +272,7 @@ function NavBar({
                             disableScrollLock={true}
                         >
                             <MenuItem component={Link} to='/weather' onClick={handleCloseServiceMenu}>Weather</MenuItem>
-                            {/* <MenuItem component={Link} to='/doseCalculator' onClick={handleCloseServiceMenu}>Dose Caluculator</MenuItem> */}
+                            <MenuItem component={Link} to='/doseCalculator' onClick={handleCloseServiceMenu}>Dose Caluculator</MenuItem>
                         </Menu>
 
                         <NavButton component={Link} to='/shop'>
