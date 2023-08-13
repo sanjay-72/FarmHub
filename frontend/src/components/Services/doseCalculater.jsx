@@ -178,9 +178,8 @@ const Services = () => {
         fontFamily="Roboto"
         fontWeight="bold"
       >
-        FarmHub provides you an unique feature for calculating common and specific
-        manures for crops, type of soil needed for crop, suitable temprature for
-        crop and more details for better yielding.
+        FarmHub  brings to you a unique feature on this website – Dose Calculator.
+        Now, you can calculate the exact amount of fertilisers based on fertiliser application, growth phase of crop and acreage.
       </Typography>
 
       <Grid container spacing={2}>
