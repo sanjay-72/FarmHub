@@ -163,7 +163,16 @@ const Services = () => {
     }
 
     else if (userCropInfo.cropName === "Mustard") {
-      // answer.FYM = 15 * acreArea;
+      //Values as per standards
+      let lBound = ((3.8 - 1) * acreArea).toFixed(2);
+      let uBound = ((3.8 + 1) * acreArea).toFixed(2);
+      answer.manures = {};
+      answer.manures.FYM = `${lBound} - ${uBound} t`;
+      answer.manures.urea = `${(65 * acreArea).toFixed(2)} Kg`;
+      answer.seedRate = `4 - 5 Kg/Acre`;
+      answer.seedsRequired = `${(4 * acreArea).toFixed(2)} - ${(5 * acreArea).toFixed(2)} Kg`;
+      answer.manures.phosphate = `${(60 * acreArea).toFixed(2)} Kg`;
+      answer.manures.pottasium = `${(40 * acreArea).toFixed(2)} Kg`;
     }
 
     else if (userCropInfo.cropName === "Onion") {
