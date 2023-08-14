@@ -242,7 +242,16 @@ const Services = () => {
 
     //If nothing above matched then default will be as same as Wheat
     else {
-      answer.FYM = 15 * acreArea;
+      //Values as per standards
+      let lBound = ((5 - 1) * acreArea).toFixed(2);
+      let uBound = ((5 + 1) * acreArea).toFixed(2);
+      answer.manures = {};
+      answer.manures.FYM = `${lBound} - ${uBound} t`;
+      answer.manures.urea = `${(5.5 * acreArea).toFixed(2)} Kg`;
+      answer.seedRate = `30 - 35 Kg/Acre`;
+      answer.seedsRequired = `${(30 * acreArea).toFixed(2)} - ${(35 * acreArea).toFixed(2)} Kg`;
+      answer.manures.phosphate = `${(16 * acreArea).toFixed(2)} Kg`;
+      answer.manures.pottasium = `${(16 * acreArea).toFixed(2)} Kg`;
     }
 
 
