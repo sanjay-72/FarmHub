@@ -189,7 +189,16 @@ const Services = () => {
     }
 
     else if (userCropInfo.cropName === "Potato") {
-      // answer.FYM = 15 * acreArea;
+      //Values as per standards
+      let lBound = ((5.5 - 1) * acreArea).toFixed(2);
+      let uBound = ((5.5 + 1) * acreArea).toFixed(2);
+      answer.manures = {};
+      answer.manures.FYM = `${lBound} - ${uBound} t`;
+      answer.manures.urea = `${(165 * acreArea).toFixed(2)} Kg`;
+      answer.seedRate = `600 - 680 Kg/Acre`;
+      answer.seedsRequired = `${(600 * acreArea).toFixed(2)} - ${(680 * acreArea).toFixed(2)} Kg`;
+      answer.manures.phosphate = `${(12 * acreArea).toFixed(2)} Kg`;
+      answer.manures.pottasium = `${(17 * acreArea).toFixed(2)} Kg`;
     }
 
     else if (userCropInfo.cropName === "Radish") {
