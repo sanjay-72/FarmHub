@@ -53,8 +53,8 @@ const Weather = ({ weatherDetails, setWeatherDetails, place, setPlace, weather }
                 whiteSpace: 'wrap',
                 // overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                backgroundImage: "linear-gradient( rgb(87, 200, 77),rgb(131, 212, 117),rgb(171, 224, 152))",
-                boxShadow: "9px 16px 21px "
+                backgroundImage: "linear-gradient( rgb(87, 200, 77) rgb(131, 212, 117) rgb(171, 224, 152))",
+                boxShadow: "9px 16px 21px ",
             }}>
                 <Typography variant="h2" color="tertiary.main" fontFamily="Roboto" fontWeight="bold" >
                     Weather in {weatherDetails.city}
