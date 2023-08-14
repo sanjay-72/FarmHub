@@ -228,7 +228,16 @@ const Services = () => {
     }
 
     else if (userCropInfo.cropName === "Tomato") {
-      // answer.FYM = 15 * acreArea;
+      //Values as per standards
+      let lBound = ((19 - 1) * acreArea).toFixed(2);
+      let uBound = ((19 + 1) * acreArea).toFixed(2);
+      answer.manures = {};
+      answer.manures.FYM = `${lBound} - ${uBound} t`;
+      answer.manures.urea = `${(75 * acreArea).toFixed(2)} Kg`;
+      answer.seedRate = `200 - 250 gm/Acre`;
+      answer.seedsRequired = `${(0.2 * acreArea).toFixed(2)} - ${(0.25 * acreArea).toFixed(2)} Kg`;
+      answer.manures.phosphate = `${(12 * acreArea).toFixed(2)} Kg`;
+      answer.manures.pottasium = `${(12 * acreArea).toFixed(2)} Kg`;
     }
 
     //If nothing above matched then default will be as same as Wheat
