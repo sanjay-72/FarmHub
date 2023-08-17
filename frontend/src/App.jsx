@@ -124,7 +124,7 @@ export default function App() {
 
     const [weatherDetails, setWeatherDetails] = useState(null);
 
-    const [place, setPlace] = useState("");
+    const [place, setPlace] = useState(" ");
 
     let weather = {
         apiKey: "0bff6234f35d3b5aef48e0dd8d8d27b9",
@@ -171,12 +171,13 @@ export default function App() {
     useEffect(() => {
         axios.get("https://ipapi.co/json")
             .then((response) => {
+                console.log(response);
                 setPlace(response.data.city)
                 weather.fetchWeather(response.data.city);
             })
             .catch((error) => console.log(error));
 
-    }, [])
+    })
 
     //-------------------------------- Translate --------------------------------
 

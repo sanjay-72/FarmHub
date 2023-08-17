@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -17,6 +17,7 @@ const Weather = ({ weatherDetails, setWeatherDetails, place, setPlace, weather }
             mt: { xs: 6, sm: 8 },
             textAlign: 'center',
             padding: "5vmax",
+            // background:"red",
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -51,7 +52,9 @@ const Weather = ({ weatherDetails, setWeatherDetails, place, setPlace, weather }
                 boxSizing: "border-box",
                 whiteSpace: 'wrap',
                 // overflow: 'hidden',
-                textOverflow: 'ellipsis'
+                textOverflow: 'ellipsis',
+                backgroundImage: "linear-gradient( rgb(87, 200, 77) rgb(131, 212, 117) rgb(171, 224, 152))",
+                boxShadow: "9px 16px 21px ",
             }}>
                 <Typography variant="h2" color="tertiary.main" fontFamily="Roboto" fontWeight="bold" >
                     Weather in {weatherDetails.city}
